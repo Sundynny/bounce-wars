@@ -56,5 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "My project.sln"
+    "dotnet.defaultSolution": "My project.sln",
+    "dotnet.preferCSharpExtension": true,
+    "git.ignoreLimitWarning": true
 }
