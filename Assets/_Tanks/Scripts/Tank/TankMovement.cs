@@ -9,6 +9,14 @@ namespace Tanks.Complete
     [DefaultExecutionOrder(-10)]
     public class TankMovement : MonoBehaviour
     {
+        [Header("Jump Settings")]
+        public float m_JumpForce = 5f;  // Lực nhảy
+        public LayerMask m_GroundMask; // Lớp mặt đất để kiểm tra tiếp đất
+        public Transform m_GroundCheck; // Điểm kiểm tra tiếp đất
+        public float m_GroundCheckRadius = 0.3f; // Bán kính kiểm tra tiếp đất
+
+        private InputAction m_JumpAction; // Hành động nhảy
+        private bool m_IsGrounded = false; // Trạng thái tiếp đất
         [Tooltip("The player number. Without a tank selection menu, Player 1 is left keyboard control, Player 2 is right keyboard")]
         public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
         [Tooltip("The speed in unity unit/second the tank move at")]
@@ -42,18 +50,18 @@ namespace Tanks.Complete
         private InputAction m_TurnAction;             // The InputAction used to shot, retrieved from TankInputUser
 
         private Vector3 m_RequestedDirection;       // In Direct Control mode, store the direction the user *wants* to go toward
-        
-        private void Awake ()
+
+        private void Awake()
         {
-            m_Rigidbody = GetComponent<Rigidbody> ();
-            
+            m_Rigidbody = GetComponent<Rigidbody>();
+
             m_InputUser = GetComponent<TankInputUser>();
             if (m_InputUser == null)
                 m_InputUser = gameObject.AddComponent<TankInputUser>();
         }
 
 
-        private void OnEnable ()
+        private void OnEnable()
         {
             // Computer controlled tank are kinematic
             m_Rigidbody.isKinematic = false;
@@ -134,6 +142,11 @@ namespace Tanks.Complete
             // binding them to the right device and control scheme
             m_MoveAction = m_InputUser.ActionAsset.FindAction(m_MovementAxisName);
             m_TurnAction = m_InputUser.ActionAsset.FindAction(m_TurnAxisName);
+            m_JumpAction = m_InputUser.ActionAsset.FindAction("Jump");
+            if (m_JumpAction != null)
+            {
+                m_JumpAction.Enable();
+            }
             
             // actions need to be enabled before they can react to input
             m_MoveAction.Enable();
@@ -152,6 +165,8 @@ namespace Tanks.Complete
                 m_MovementInputValue = m_MoveAction.ReadValue<float>();
                 m_TurnInputValue = m_TurnAction.ReadValue<float>();
             }
+            m_IsGrounded = Physics.CheckSphere(m_GroundCheck.position, m_GroundCheckRadius, m_GroundMask);
+            Debug.Log($"IsGrounded: {m_IsGrounded}");
             
             EngineAudio ();
         }
@@ -185,33 +200,54 @@ namespace Tanks.Complete
         }
 
 
-        private void FixedUpdate ()
+        private void FixedUpdate()
         {
             // If this is using a gamepad or have direct control enabled, this used a different movement method : instead of
             // "up" behind moving forward for the tank, it instead takes the gamepad move direction as the desired forward for the tank
             // and will compute the speed and rotation needed to move the tank toward that direction.
-            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" ||  m_IsDirectControl)
+            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
             {
                 var camForward = Camera.main.transform.forward;
                 camForward.y = 0;
                 camForward.Normalize();
                 var camRight = Vector3.Cross(Vector3.up, camForward);
-                
+
                 //this creates a vector based on camera look (e.g. pressing up mean we want to go up in the direction of the
                 //camera, not forward in the direction of the tank)
                 m_RequestedDirection = (camForward * m_MovementInputValue + camRight * m_TurnInputValue);
             }
-            
+
             // Adjust the rigidbodies position and orientation in FixedUpdate.
-            Move ();
-            Turn ();
+            Move();
+            Turn();
+            CheckGrounded();
+            HandleJump();
+
+        }
+
+        private void CheckGrounded()
+        {
+            if (m_GroundCheck != null)
+            {
+                m_IsGrounded = Physics.CheckSphere(m_GroundCheck.position, m_GroundCheckRadius, m_GroundMask);
+            }
+        }
+
+        private void HandleJump()
+        {
+            if (m_JumpAction != null && m_JumpAction.WasPressedThisFrame() && m_IsGrounded)
+            {
+                m_Rigidbody.AddForce(Vector3.up * m_JumpForce, ForceMode.Impulse);
+            }
+            Debug.Log($"JumpAction active: {m_JumpAction.enabled}, PressedThisFrame: {m_JumpAction.WasPressedThisFrame()}");
+
         }
 
 
-        private void Move ()
+        private void Move()
         {
             float speedInput = 0.0f;
-            
+
             // In direct control mode, the speed will depend on how far from the desired direction we are
             if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
             {
@@ -225,7 +261,7 @@ namespace Tanks.Complete
                 // in normal "tank control" the speed value is how much we press "up/forward"
                 speedInput = m_MovementInputValue;
             }
-            
+
             // Create a vector in the direction the tank is facing with a magnitude based on the input, speed and the time between frames.
             Vector3 movement = transform.forward * speedInput * m_Speed * Time.deltaTime;
 
