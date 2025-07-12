@@ -9,6 +9,15 @@ namespace Tanks.Complete
     [DefaultExecutionOrder(-10)]
     public class TankMovement : MonoBehaviour
     {
+        [Header("Jump Settings")]
+        public float m_JumpForce = 5f;  // Lực nhảy
+        public LayerMask m_GroundMask; // Lớp mặt đất để kiểm tra tiếp đất
+        public Transform m_GroundCheck; // Điểm kiểm tra tiếp đất
+        public float m_GroundCheckRadius = 0.3f; // Bán kính kiểm tra tiếp đất
+
+        private InputAction m_JumpAction; // Hành động nhảy
+        private bool m_IsGrounded = false; // Trạng thái tiếp đất
+
         [Tooltip("The player number. Without a tank selection menu, Player 1 is left keyboard control, Player 2 is right keyboard")]
         public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
         [Tooltip("The speed in unity unit/second the tank move at")]
@@ -134,6 +143,11 @@ namespace Tanks.Complete
             // binding them to the right device and control scheme
             m_MoveAction = m_InputUser.ActionAsset.FindAction(m_MovementAxisName);
             m_TurnAction = m_InputUser.ActionAsset.FindAction(m_TurnAxisName);
+            m_JumpAction = m_InputUser.ActionAsset.FindAction("Jump");
+            if (m_JumpAction != null)
+            {
+                m_JumpAction.Enable();
+            }
             
             // actions need to be enabled before they can react to input
             m_MoveAction.Enable();
@@ -144,7 +158,7 @@ namespace Tanks.Complete
         }
 
 
-        private void Update ()
+        private void Update()
         {
             // Computer controlled tank will be moved by the TankAI component, so only read input for player controlled tanks
             if (!m_IsComputerControlled)
@@ -152,23 +166,41 @@ namespace Tanks.Complete
                 m_MovementInputValue = m_MoveAction.ReadValue<float>();
                 m_TurnInputValue = m_TurnAction.ReadValue<float>();
             }
-            
-            EngineAudio ();
+
+            EngineAudio();
+            CheckGrounded();
+            HandleJump();
+        }
+        private void CheckGrounded()
+        {
+            if (m_GroundCheck != null)
+            {
+                m_IsGrounded = Physics.CheckSphere(m_GroundCheck.position, m_GroundCheckRadius, m_GroundMask);
+            }
+        }
+        private void HandleJump()
+        {
+            if (m_JumpAction != null && m_JumpAction.WasPressedThisFrame() && m_IsGrounded)
+            {
+                m_Rigidbody.AddForce(Vector3.up * m_JumpForce, ForceMode.Impulse);
+            }
         }
 
 
-        private void EngineAudio ()
+
+
+        private void EngineAudio()
         {
             // If there is no input (the tank is stationary)...
-            if (Mathf.Abs (m_MovementInputValue) < 0.1f && Mathf.Abs (m_TurnInputValue) < 0.1f)
+            if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
             {
                 // ... and if the audio source is currently playing the driving clip...
                 if (m_MovementAudio.clip == m_EngineDriving)
                 {
                     // ... change the clip to idling and play it.
                     m_MovementAudio.clip = m_EngineIdling;
-                    m_MovementAudio.pitch = Random.Range (m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
-                    m_MovementAudio.Play ();
+                    m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+                    m_MovementAudio.Play();
                 }
             }
             else
