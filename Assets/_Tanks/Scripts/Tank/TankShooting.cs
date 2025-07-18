@@ -6,6 +6,10 @@ namespace Tanks.Complete
 {
     public class TankShooting : MonoBehaviour
     {
+        private LineRenderer m_TrajectoryLine;
+        private int m_TrajectoryResolution = 30;
+        private float m_TrajectoryTimeStep = 0.1f;
+
         public Rigidbody m_Shell;                   // Prefab of the shell.
         public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
         public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
@@ -66,6 +70,7 @@ namespace Tanks.Complete
             m_InputUser = GetComponent<TankInputUser>();
             if (m_InputUser == null)
                 m_InputUser = gameObject.AddComponent<TankInputUser>();
+            m_TrajectoryLine = GetComponent<LineRenderer>();
         }
 
         private void Start ()
@@ -128,7 +133,7 @@ namespace Tanks.Complete
             {
                 // ... use the max force and launch the shell.
                 m_CurrentLaunchForce = m_MaxLaunchForce;
-                Fire ();
+                Fire();
             }
             // Otherwise, if the fire button is being held and the shell hasn't been launched yet...
             else if (m_IsCharging && !m_Fired)
@@ -142,11 +147,19 @@ namespace Tanks.Complete
             else if (fireAction.WasReleasedThisFrame() && !m_Fired)
             {
                 // ... launch the shell.
-                Fire ();
+                Fire();
                 m_IsCharging = false;
             }
+            if (m_IsCharging && !m_Fired)
+            {
+                ShowTrajectory(m_CurrentLaunchForce);
+            }
+            else
+            {
+                m_TrajectoryLine.positionCount = 0;
+            }
         }
-        
+
         void HumanUpdate()
         {
             // if there is a cooldown timer, decrement it
@@ -154,7 +167,7 @@ namespace Tanks.Complete
             {
                 m_ShotCooldownTimer -= Time.deltaTime;
             }
-            
+
             // The slider should have a default value of the minimum launch force.
             m_AimSlider.value = m_BaseMinLaunchForce;
 
@@ -163,7 +176,7 @@ namespace Tanks.Complete
             {
                 // ... use the max force and launch the shell.
                 m_CurrentLaunchForce = m_MaxLaunchForce;
-                Fire ();
+                Fire();
             }
             // Otherwise, if the fire button has just started being pressed...
             else if (m_ShotCooldownTimer <= 0 && fireAction.WasPressedThisFrame())
@@ -174,7 +187,7 @@ namespace Tanks.Complete
 
                 // Change the clip to the charging clip and start it playing.
                 m_ShootingAudio.clip = m_ChargingClip;
-                m_ShootingAudio.Play ();
+                m_ShootingAudio.Play();
             }
             // Otherwise, if the fire button is being held and the shell hasn't been launched yet...
             else if (fireAction.IsPressed() && !m_Fired)
@@ -188,19 +201,45 @@ namespace Tanks.Complete
             else if (fireAction.WasReleasedThisFrame() && !m_Fired)
             {
                 // ... launch the shell.
-                Fire ();
+                Fire();
             }
+            if (fireAction.IsPressed() && !m_Fired)
+            {
+                ShowTrajectory(m_CurrentLaunchForce);
+            }
+            else
+            {
+                m_TrajectoryLine.positionCount = 0; // Ẩn khi không bắn
+            }
+        }
+        
+        private void ShowTrajectory(float launchForce)
+        {
+            Vector3[] points = new Vector3[m_TrajectoryResolution];
+            Vector3 startPos = m_FireTransform.position;
+            Vector3 startVelocity = m_FireTransform.forward * launchForce;
+
+            for (int i = 0; i < m_TrajectoryResolution; i++)
+            {
+                float t = i * m_TrajectoryTimeStep;
+                Vector3 point = startPos + startVelocity * t + 0.5f * Physics.gravity * t * t;
+                points[i] = point;
+            }
+
+            m_TrajectoryLine.positionCount = m_TrajectoryResolution;
+            m_TrajectoryLine.SetPositions(points);
         }
 
 
-        private void Fire ()
+
+        private void Fire()
         {
             // Set the fired flag so only Fire is only called once.
             m_Fired = true;
 
             // Create an instance of the shell and store a reference to it's rigidbody.
             Rigidbody shellInstance =
-                Instantiate (m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+                Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
             // Set the shell's velocity to the launch force in the fire position's forward direction.
             shellInstance.linearVelocity = m_CurrentLaunchForce * m_FireTransform.forward;
@@ -209,7 +248,7 @@ namespace Tanks.Complete
             explosionData.m_ExplosionForce = m_ExplosionForce;
             explosionData.m_ExplosionRadius = m_ExplosionRadius;
             explosionData.m_MaxDamage = m_MaxDamage;
-            
+
             // Increase the damage if extra damage PowerUp is active
             if (m_HasSpecialShell)
             {
@@ -217,7 +256,7 @@ namespace Tanks.Complete
                 // Reset the default values after increasing the damage of the fired shell
                 m_HasSpecialShell = false;
                 m_SpecialShellMultiplier = 1f;
-                
+
                 PowerUpDetector powerUpDetector = GetComponent<PowerUpDetector>();
                 if (powerUpDetector != null)
                     powerUpDetector.m_HasActivePowerUp = false;
@@ -229,7 +268,7 @@ namespace Tanks.Complete
 
             // Change the clip to the firing clip and play it.
             m_ShootingAudio.clip = m_FireClip;
-            m_ShootingAudio.Play ();
+            m_ShootingAudio.Play();
 
             // Reset the launch force.  This is a precaution in case of missing button events.
             m_CurrentLaunchForce = m_MinLaunchForce;
