@@ -62,18 +62,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Tanks\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\_Prefabs_bounce_wars\SC\ElementalOrb.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpHUD.cs" />
+    <Compile Include="Assets\_Prefabs_bounce_wars\SC\TankFlagCarrier.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankAI.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\MultiplayerManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpSpawner.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankShooting.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\PowerUpDetector.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpFX.cs" />
+    <Compile Include="Assets\_Prefabs_bounce_wars\SC\AltarController.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\StartMenuSlot.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUp.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankHealth.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Camera\CameraControl.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MobileControl\MobileUIControl.cs" />
+    <Compile Include="Assets\_Prefabs_bounce_wars\SC\Point_Controller.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MobileControl\VirtualInputs\UIVirtualJoystick.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Managers\TankManager.cs" />
@@ -1190,6 +1194,10 @@
     </Reference>
     <Reference Include="Unity.Services.Core.Components">
       <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Components.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Cursor.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Cursor.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Rendering.LightTransport.Editor">

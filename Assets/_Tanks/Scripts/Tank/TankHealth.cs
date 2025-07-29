@@ -5,72 +5,72 @@ namespace Tanks.Complete
 {
     public class TankHealth : MonoBehaviour
     {
-        public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
-        public Slider m_Slider;                             // The slider to represent how much health the tank currently has.
-        public Image m_FillImage;                           // The image component of the slider.
-        public Color m_FullHealthColor = Color.green;    // The color the health bar will be when on full health.
-        public Color m_ZeroHealthColor = Color.red;      // The color the health bar will be when on no health.
-        public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies.
-        [HideInInspector] public bool m_HasShield;          // Has the tank picked up a shield power up?
-        
-        
-        private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
-        private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
-        private float m_CurrentHealth;                      // How much health the tank currently has.
-        private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
-        private float m_ShieldValue;                        // Percentage of reduced damage when the tank has a shield.
-        private bool m_IsInvincible;                        // Is the tank invincible in this moment?
+        public float m_StartingHealth = 100f;               // Lượng máu mà mỗi xe tăng bắt đầu có.
+        public Slider m_Slider;                             // Thanh trượt để biểu thị lượng máu hiện tại của xe tăng.
+        public Image m_FillImage;                           // Thành phần hình ảnh của thanh trượt.
+        public Color m_FullHealthColor = Color.green;       // Màu của thanh máu khi đầy.
+        public Color m_ZeroHealthColor = Color.red;         // Màu của thanh máu khi hết máu.
+        public GameObject m_ExplosionPrefab;                // Một prefab sẽ được khởi tạo trong Awake, sau đó được sử dụng mỗi khi xe tăng bị phá hủy.
+        [HideInInspector] public bool m_HasShield;          // Xe tăng đã nhặt được vật phẩm tăng sức mạnh khiên chưa?
 
-        private void Awake ()
+
+        private AudioSource m_ExplosionAudio;               // Nguồn âm thanh để phát khi xe tăng phát nổ.
+        private ParticleSystem m_ExplosionParticles;        // Hệ thống hạt sẽ phát khi xe tăng bị phá hủy.
+        private float m_CurrentHealth;                      // Lượng máu hiện tại của xe tăng.
+        private bool m_Dead;                                // Xe tăng đã bị giảm máu xuống dưới 0 chưa?
+        private float m_ShieldValue;                        // Tỷ lệ phần trăm sát thương giảm đi khi xe tăng có khiên.
+        private bool m_IsInvincible;                        // Xe tăng có đang bất tử vào lúc này không?
+
+        private void Awake()
         {
-            // Instantiate the explosion prefab and get a reference to the particle system on it.
-            m_ExplosionParticles = Instantiate (m_ExplosionPrefab).GetComponent<ParticleSystem> ();
+            // Khởi tạo prefab vụ nổ và lấy tham chiếu đến hệ thống hạt trên đó.
+            m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
 
-            // Get a reference to the audio source on the instantiated prefab.
-            m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource> ();
+            // Lấy tham chiếu đến nguồn âm thanh trên prefab đã được khởi tạo.
+            m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
 
-            // Disable the prefab so it can be activated when it's required.
-            m_ExplosionParticles.gameObject.SetActive (false);
-            
-            // Set the slider max value to the max health the tank can have
+            // Vô hiệu hóa prefab để nó có thể được kích hoạt khi cần thiết.
+            m_ExplosionParticles.gameObject.SetActive(false);
+
+            // Đặt giá trị tối đa của thanh trượt thành lượng máu tối đa mà xe tăng có thể có.
             m_Slider.maxValue = m_StartingHealth;
         }
 
         private void OnDestroy()
         {
-            if(m_ExplosionParticles != null)
+            if (m_ExplosionParticles != null)
                 Destroy(m_ExplosionParticles.gameObject);
         }
 
         private void OnEnable()
         {
-            // When the tank is enabled, reset the tank's health and whether or not it's dead.
+            // Khi xe tăng được kích hoạt, hãy đặt lại máu của xe tăng và trạng thái sống/chết.
             m_CurrentHealth = m_StartingHealth;
             m_Dead = false;
             m_HasShield = false;
             m_ShieldValue = 0;
             m_IsInvincible = false;
 
-            // Update the health slider's value and color.
+            // Cập nhật giá trị và màu sắc của thanh trượt máu.
             SetHealthUI();
         }
 
 
-        public void TakeDamage (float amount)
+        public void TakeDamage(float amount)
         {
-            // Check if the tank is not invincible
+            // Kiểm tra xem xe tăng có bất tử không.
             if (!m_IsInvincible)
             {
-                // Reduce current health by the amount of damage done.
+                // Giảm máu hiện tại theo lượng sát thương nhận vào.
                 m_CurrentHealth -= amount * (1 - m_ShieldValue);
 
-                // Change the UI elements appropriately.
-                SetHealthUI ();
+                // Thay đổi các yếu tố giao diện người dùng một cách thích hợp.
+                SetHealthUI();
 
-                // If the current health is at or below zero and it has not yet been registered, call OnDeath.
+                // Nếu máu hiện tại bằng hoặc dưới 0 và chưa được ghi nhận, hãy gọi hàm OnDeath.
                 if (m_CurrentHealth <= 0f && !m_Dead)
                 {
-                    OnDeath ();
+                    OnDeath();
                 }
             }
         }
@@ -78,29 +78,29 @@ namespace Tanks.Complete
 
         public void IncreaseHealth(float amount)
         {
-            // Check if adding the amount would keep the health within the maximum limit
+            // Kiểm tra xem việc thêm lượng máu có giữ máu trong giới hạn tối đa không.
             if (m_CurrentHealth + amount <= m_StartingHealth)
             {
-                // If the new health value is within the limit, add the amount
+                // Nếu giá trị máu mới nằm trong giới hạn, hãy cộng thêm lượng đó.
                 m_CurrentHealth += amount;
             }
             else
             {
-                // If the new health exceeds the starting health, set it at the maximum
+                // Nếu lượng máu mới vượt quá máu khởi đầu, hãy đặt nó ở mức tối đa.
                 m_CurrentHealth = m_StartingHealth;
             }
 
-            // Change the UI elements appropriately.
+            // Thay đổi các yếu tố giao diện người dùng một cách thích hợp.
             SetHealthUI();
         }
 
 
-        public void ToggleShield (float shieldAmount)
+        public void ToggleShield(float shieldAmount)
         {
-            // Inverts the value of has shield.
+            // Đảo ngược giá trị của biến có khiên.
             m_HasShield = !m_HasShield;
 
-            // Stablish the amount of damage that will be reduced by the shield
+            // Thiết lập lượng sát thương sẽ được giảm bởi khiên.
             if (m_HasShield)
             {
                 m_ShieldValue = shieldAmount;
@@ -117,33 +117,33 @@ namespace Tanks.Complete
         }
 
 
-        private void SetHealthUI ()
+        private void SetHealthUI()
         {
-            // Set the slider's value appropriately.
+            // Đặt giá trị của thanh trượt một cách thích hợp.
             m_Slider.value = m_CurrentHealth;
 
-            // Interpolate the color of the bar between the choosen colours based on the current percentage of the starting health.
-            m_FillImage.color = Color.Lerp (m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
+            // Nội suy màu của thanh máu giữa các màu đã chọn dựa trên tỷ lệ phần trăm hiện tại của máu khởi đầu.
+            m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
         }
 
 
-        private void OnDeath ()
+        private void OnDeath()
         {
-            // Set the flag so that this function is only called once.
+            // Đặt cờ để hàm này chỉ được gọi một lần.
             m_Dead = true;
 
-            // Move the instantiated explosion prefab to the tank's position and turn it on.
+            // Di chuyển prefab vụ nổ đã được khởi tạo đến vị trí của xe tăng và bật nó lên.
             m_ExplosionParticles.transform.position = transform.position;
-            m_ExplosionParticles.gameObject.SetActive (true);
+            m_ExplosionParticles.gameObject.SetActive(true);
 
-            // Play the particle system of the tank exploding.
-            m_ExplosionParticles.Play ();
+            // Phát hệ thống hạt của vụ nổ xe tăng.
+            m_ExplosionParticles.Play();
 
-            // Play the tank explosion sound effect.
+            // Phát hiệu ứng âm thanh nổ của xe tăng.
             m_ExplosionAudio.Play();
 
-            // Turn the tank off.
-            gameObject.SetActive (false);
+            // Tắt đối tượng xe tăng.
+            gameObject.SetActive(false);
         }
     }
 }
