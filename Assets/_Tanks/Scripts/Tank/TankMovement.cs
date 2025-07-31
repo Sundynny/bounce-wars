@@ -51,7 +51,8 @@ namespace Tanks.Complete
         private InputAction m_TurnAction;            // InputAction dùng để bắn, được lấy từ TankInputUser
 
         private Vector3 m_RequestedDirection;        // Trong chế độ điều khiển trực tiếp, lưu trữ hướng người dùng *muốn* đi tới
-
+        private Animator m_Animator;
+        private bool m_WasJumping = false;
         private void Awake()
         {
             m_Rigidbody = GetComponent<Rigidbody>();
@@ -59,6 +60,7 @@ namespace Tanks.Complete
             m_InputUser = GetComponent<TankInputUser>();
             if (m_InputUser == null)
                 m_InputUser = gameObject.AddComponent<TankInputUser>();
+            m_Animator = GetComponentInChildren<Animator>();
         }
 
 
@@ -170,6 +172,7 @@ namespace Tanks.Complete
             EngineAudio();
             CheckGrounded();
             HandleJump();
+            UpdateAnimatorStates();
         }
         private void CheckGrounded()
         {
@@ -185,9 +188,6 @@ namespace Tanks.Complete
                 m_Rigidbody.AddForce(Vector3.up * m_JumpForce, ForceMode.Impulse);
             }
         }
-
-
-
 
         private void EngineAudio()
         {
@@ -216,6 +216,23 @@ namespace Tanks.Complete
             }
         }
 
+        private void UpdateAnimatorStates()
+        {
+            if (m_Animator == null)
+                return;
+
+            // Di chuyển: true nếu có input chuyển động
+            bool isMoving = Mathf.Abs(m_MovementInputValue) > 0.1f || Mathf.Abs(m_TurnInputValue) > 0.1f;
+            m_Animator.SetBool("isMoving", isMoving);
+
+            // Nhảy: true khi vừa nhảy
+            bool isJumpingNow = !m_IsGrounded;
+            if (isJumpingNow != m_WasJumping)
+            {
+                m_Animator.SetBool("isJumping", isJumpingNow);
+                m_WasJumping = isJumpingNow;
+            }
+        }
 
         private void FixedUpdate()
         {

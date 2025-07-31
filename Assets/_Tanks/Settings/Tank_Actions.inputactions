@@ -132,7 +132,7 @@
                 {
                     "name": "",
                     "id": "9a7e453d-8561-4259-aaee-386bd195f895",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardLeft",
@@ -264,7 +264,7 @@
                 {
                     "name": "",
                     "id": "e4d78c64-3bb6-4894-b84b-3bbacdf88a15",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardLeft",
