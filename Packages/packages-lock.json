@@ -152,6 +152,24 @@
         "com.unity.modules.uielements": "1.0.0"
       }
     },
+    "com.unity.multiplayer.playmode": {
+      "version": "1.5.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.2"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.multiplayer.widgets": {
+      "version": "1.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.services.multiplayer": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.netcode.gameobjects": {
       "version": "2.4.4",
       "depth": 0,
@@ -368,8 +386,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.transport": {
-      "version": "2.5.1",
-      "depth": 1,
+      "version": "2.5.2",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.burst": "1.8.12",

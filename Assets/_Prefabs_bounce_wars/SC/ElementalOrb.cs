@@ -1,8 +1,11 @@
 ﻿using Tanks.Complete;
 using UnityEngine;
+using Unity.Netcode; // --- THAY ĐỔI NETCODE ---
 
-public class ElementalOrb : MonoBehaviour
+// --- THAY ĐỔI NETCODE ---
+public class ElementalOrb : NetworkBehaviour
 {
+    // --- CÁC BIẾN VÀ COMMENT GỐC CỦA BẠN ĐƯỢC GIỮ NGUYÊN ---
     public enum ElementType
     {
         Fire,   // Lửa: Tăng sát thương
@@ -16,26 +19,63 @@ public class ElementalOrb : MonoBehaviour
     public float effectStrength = 10f;
     public float damageMultiplier = 1.5f;
 
+    // --- NETCODE STATE ---
+    // Biến này để theo dõi trạng thái đã được nhặt hay chưa.
+    // Chỉ Server có quyền ghi, giúp chống lại các race condition.
+    private NetworkVariable<bool> m_IsPickedUp = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    // --- THAY ĐỔI NETCODE ---
+    // Logic va chạm giờ đây chỉ dùng để KÍCH HOẠT một yêu cầu lên Server.
     private void OnTriggerEnter(Collider other)
     {
-        // Lấy thành phần PowerUpDetector từ đối tượng va chạm
-        PowerUpDetector detector = other.GetComponent<PowerUpDetector>();
-
-        // --- THAY ĐỔI QUAN TRỌNG ---
-        // Chỉ cần kiểm tra xem đối tượng có phải là xe tăng không (có PowerUpDetector).
-        // Không cần kiểm tra xem nó có đang dùng vật phẩm khác không nữa.
-        if (detector != null)
+        // Cố gắng lấy NetworkObject của đối tượng va chạm.
+        if (other.TryGetComponent<NetworkObject>(out var networkObject))
         {
-            // Áp dụng hiệu ứng
-            ApplyEffect(detector);
-
-            // Vô hiệu hóa và hủy quả cầu
-            GetComponent<Renderer>().enabled = false;
-            GetComponent<Collider>().enabled = false;
-            Destroy(gameObject, 0.5f);
+            // CHỈ người chơi sở hữu chiếc xe tăng đó (người chơi cục bộ) mới gửi yêu cầu lên server.
+            // Điều này ngăn chặn việc 10 client cùng gửi yêu cầu cho 1 lần va chạm.
+            if (networkObject.IsOwner)
+            {
+                // Gọi một ServerRpc để thông báo cho server biết rằng chúng ta muốn nhặt vật phẩm này.
+                TryPickupServerRpc();
+            }
         }
     }
 
+    // --- THAY ĐỔI NETCODE ---
+    // [ServerRpc] - Hàm này được client gọi, nhưng chỉ thực thi trên Server.
+    // RequireOwnership = false vì client không "sở hữu" quả cầu, nhưng vẫn cần có quyền gọi RPC trên nó.
+    [ServerRpc(RequireOwnership = false)]
+    private void TryPickupServerRpc(ServerRpcParams rpcParams = default)
+    {
+        // --- Xử lý Race Condition ---
+        // Server kiểm tra trạng thái cuối cùng. Nếu đã bị nhặt, không làm gì cả.
+        if (m_IsPickedUp.Value)
+        {
+            return;
+        }
+
+        // Đánh dấu là đã bị nhặt NGAY LẬP TỨC để yêu cầu tiếp theo sẽ thất bại.
+        m_IsPickedUp.Value = true;
+
+        // Lấy thông tin của người chơi đã gửi yêu cầu này.
+        ulong senderClientId = rpcParams.Receive.SenderClientId;
+        NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[senderClientId].PlayerObject;
+
+        // Server tìm PowerUpDetector trên xe tăng của người chơi đó.
+        if (playerNetworkObject != null && playerNetworkObject.TryGetComponent<PowerUpDetector>(out var detector))
+        {
+            // Server gọi hàm áp dụng hiệu ứng.
+            // Vì chúng ta đang ở trên server, hàm này sẽ gọi các ServerRpc trong PowerUpDetector một cách chính xác.
+            ApplyEffect(detector);
+        }
+
+        // Sau khi áp dụng hiệu ứng, Server hủy vật phẩm này trên TOÀN MẠNG.
+        // Điều này sẽ làm nó biến mất khỏi game của tất cả người chơi.
+        NetworkObject.Despawn();
+    }
+
+
+    // Hàm này không thay đổi, giờ nó được gọi trên Server.
     private void ApplyEffect(PowerUpDetector detector)
     {
         switch (elementType)

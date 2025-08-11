@@ -1,21 +1,12 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Một script "đánh dấu" đơn giản để xác định một đối tượng là Altar (bàn thờ/khu vực ghi điểm).
+/// Nó không chứa logic thực thi, chỉ chứa dữ liệu như TeamID.
+/// </summary>
 public class AltarController : MonoBehaviour
 {
+    // Bạn vẫn có thể giữ lại TeamID để phân biệt các khu vực ghi điểm khác nhau.
     [SerializeField] private int m_TeamID = 1;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        TankFlagCarrier tank = other.GetComponent<TankFlagCarrier>();
-
-        // Đổi tên thuộc tính kiểm tra
-        if (tank != null && tank.IsCarryingAnyPointObject)
-        {
-            Debug.Log("Tank with " + tank.gameObject.GetComponent<TankFlagCarrier>().GetCarriedCount() + " points has reached the altar!");
-
-            // GameManager.Instance.AddScore(m_TeamID, tank.GetCarriedCount()); // Cộng số điểm bằng số quả cầu
-
-            tank.OnScore();
-        }
-    }
+    public int TeamID => m_TeamID;
 }
