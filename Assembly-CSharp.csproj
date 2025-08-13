@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Assets\_Tanks\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\MainScreen\Scripts\quaynhanvat.cs" />
+    <Compile Include="Assets\Fonts\Script\scriptTexttest.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\TankFlagCarrier.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\MultiplayerManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpSpawner.cs" />
@@ -83,6 +84,7 @@
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Bowlby_One\FontLicense.txt" />
+    <None Include="Assets\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Ubuntu\UFL.txt" />
@@ -99,6 +101,7 @@
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\_Tanks\Art\Fonts\Exo_2\OFL.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\IBM_Plex_Mono\OFL.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\Inter\README.txt" />
