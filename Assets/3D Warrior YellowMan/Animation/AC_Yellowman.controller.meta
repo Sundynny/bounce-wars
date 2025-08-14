@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 52523004db10f9d49a6d228d1491df8b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 232898
+  packageName: 3D Warrior YellowMan
+  packageVersion: 1.0
+  assetPath: Assets/3D Warrior YellowMan/Animation/AC_Yellowman.controller
+  uploadId: 530489

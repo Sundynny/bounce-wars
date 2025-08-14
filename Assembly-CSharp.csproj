@@ -58,6 +58,7 @@
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpFX.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\AltarController.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUp.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\test script\PlayerController3D.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Camera\CameraControl.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MobileControl\MobileUIControl.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Managers\TankManager.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankAI.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankShooting.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\StartMenuSlot.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\test script\CameraFollow.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankHealth.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\Point_Controller.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\PauseMenu.cs" />
