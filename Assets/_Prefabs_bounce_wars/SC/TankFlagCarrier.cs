@@ -108,7 +108,6 @@ public class TankFlagCarrier : NetworkBehaviour
         }
     }
 
-    // --- HÀM ĐÃ ĐƯỢC CẬP NHẬT VỚI ĐẦY ĐỦ COMMENT ---
     /// <summary>
     /// Hàm này giờ xử lý hai loại va chạm: nhặt vật phẩm và ghi điểm tại bàn thờ.
     /// Logic được đặt ở đây thay vì trên các vật phẩm để tuân thủ mô hình "người chơi chủ động".
@@ -211,13 +210,24 @@ public class TankFlagCarrier : NetworkBehaviour
         }
     }
 
+
+
+
     [ServerRpc]
     private void ScorePointsServerRpc()
     {
         if (m_CarriedPointObjectIds.Count > 0)
         {
-            // TODO: Cộng điểm vào GameManager trên server.
-            // FindObjectOfType<GameManager>().AddScore(OwnerClientId, CarriedCount);
+            // --- THAY ĐỔI Ở ĐÂY ---
+            // Thay thế dòng // TODO cũ bằng lời gọi đến GameManager.
+            // Giả sử xe tăng này thuộc đội 1. Bạn sẽ cần một hệ thống để xác định đội sau này.
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AddScore(1, CarriedCount);
+            }
+            // --- KẾT THÚC THAY ĐỔI ---
+
+            // Logic reset vật phẩm giống như khi chết.
             DropAllPointsOnDeath();
         }
     }
