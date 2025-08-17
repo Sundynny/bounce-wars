@@ -74,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Tanks\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\quaynhanvat.cs" />
+    <Compile Include="Assets\Fonts\Script\scriptTexttest.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\TankFlagCarrier.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\MultiplayerManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpSpawner.cs" />
@@ -82,12 +84,14 @@
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\AltarController.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\login\LoginManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUp.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\test script\PlayerController3D.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Camera\CameraControl.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\LobbyListItemUI.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MobileControl\MobileUIControl.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Managers\TankManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankInputUser.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Shell\ShellExplosion.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\ControlPanel.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\ClientNetworkTransform.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MessageTextReference.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\GameManager.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankAI.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankShooting.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\StartMenuSlot.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\test script\CameraFollow.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\RelayManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankHealth.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\Point_Controller.cs" />
@@ -111,6 +116,7 @@
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Bowlby_One\FontLicense.txt" />
+    <None Include="Assets\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Ubuntu\UFL.txt" />
@@ -127,6 +133,7 @@
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\_Tanks\Art\Fonts\Exo_2\OFL.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\IBM_Plex_Mono\OFL.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\Inter\README.txt" />
@@ -1326,6 +1333,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.PlayerAccounts.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Assistant.Bridge.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Assistant.Bridge.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Scenes">
       <HintPath>Library\ScriptAssemblies\Unity.Scenes.dll</HintPath>
       <Private>False</Private>
@@ -1336,10 +1347,6 @@
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Assistant.Bridge.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Assistant.Bridge.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.InputSystem.ForUI">
@@ -1434,6 +1441,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Netcode.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Multiplayer.Tools.NetworkSolutionInterface">
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkSolutionInterface.dll</HintPath>
       <Private>False</Private>
@@ -1448,10 +1459,6 @@
     </Reference>
     <Reference Include="Unity.AI.Navigation">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Netcode.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.ScriptableBuildPipeline">
@@ -1686,12 +1693,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStatsMonitor.Component.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetVis.Editor.UI">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetVis.Editor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Multiplayer.Tools.NetVis.Editor.UI">
+      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetVis.Editor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.InferenceEngine">
