@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tanks.Complete
 {
@@ -43,7 +43,7 @@ namespace Tanks.Complete
             transform.rotation = Quaternion.Euler(0, 50f * Time.time, 0);
         }
 
-
+        // --- HÀM ĐÃ ĐƯỢC SỬA LỖI ---
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Tank"))
@@ -51,8 +51,11 @@ namespace Tanks.Complete
                 // Reference to the PowerUpDetector component of the tank.
                 PowerUpDetector m_PowerUpDetector = other.gameObject.GetComponent<PowerUpDetector>();
 
-                // Checks that the tank has not picked up other power up
-                if (!m_PowerUpDetector.m_HasActivePowerUp)
+                // --- THAY ĐỔI QUAN TRỌNG ---
+                // Kiểm tra xem xe tăng có thành phần PowerUpDetector không.
+                // Điều kiện cũ `!m_PowerUpDetector.m_HasActivePowerUp` đã được xóa bỏ
+                // để cho phép nhặt nhiều vật phẩm và làm mới thời gian.
+                if (m_PowerUpDetector != null)
                 {
                     // The power up reduces is a shield
                     if (m_PowerUpType == PowerUpType.DamageReduction)

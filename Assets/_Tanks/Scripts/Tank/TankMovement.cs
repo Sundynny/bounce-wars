@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using Unity.Netcode; // THÊM MỚI
 
 namespace Tanks.Complete
 {
-    //Ensure it run before the TankShooting component as TankShooting grabs the InputUser from this when there are no
-    //GameManager set (used during learning experience to test tank in empty scenes)
     [DefaultExecutionOrder(-10)]
-    public class TankMovement : MonoBehaviour
+    public class TankMovement : NetworkBehaviour // THAY ĐỔI
     {
+        // --- TẤT CẢ CÁC BIẾN GIỮ NGUYÊN ---
         [Header("Jump Settings")]
         public float m_JumpForce = 5f;  // Lực nhảy
         public LayerMask m_GroundMask; // Lớp mặt đất để kiểm tra tiếp đất
@@ -17,40 +17,43 @@ namespace Tanks.Complete
 
         private InputAction m_JumpAction; // Hành động nhảy
         private bool m_IsGrounded = false; // Trạng thái tiếp đất
-        [Tooltip("The player number. Without a tank selection menu, Player 1 is left keyboard control, Player 2 is right keyboard")]
-        public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
-        [Tooltip("The speed in unity unit/second the tank move at")]
-        public float m_Speed = 12f;                 // How fast the tank moves forward and back.
-        [Tooltip("The speed in deg/s that tank will rotate at")]
-        public float m_TurnSpeed = 180f;            // How fast the tank turns in degrees per second.
-        [Tooltip("If set to true, the tank auto orient and move toward the pressed direction instead of rotating on left/right and move forward on up")]
+
+        [Tooltip("Số người chơi. Không có menu chọn obj, Người chơi 1 điều khiển bằng bàn phím trái, Người chơi 2 điều khiển bằng bàn phím phải")]
+        public int m_PlayerNumber = 1;                   // Dùng để xác định obj nào thuộc về người chơi nào. Cái này được thiết lập bởi bộ quản lý của obj.
+        [Tooltip("Tốc độ (đơn vị unity/giây) mà obj di chuyển")]
+        public float m_Speed = 12f;                      // Tốc độ obj di chuyển tới và lùi.
+        [Tooltip("Tốc độ xoay của obj theo độ/giây")]
+        public float m_TurnSpeed = 180f;                 // Tốc độ obj quay theo độ mỗi giây.
+        [Tooltip("Nếu đặt thành true, obj tự động định hướng và di chuyển theo hướng nhấn thay vì xoay trái/phải và di chuyển tiến lên")]
         public bool m_IsDirectControl;
-        public AudioSource m_MovementAudio;         // Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
-        public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
-        public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
-		public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
-        [Tooltip("Is set to true this will be controlled by the computer and not a player")]
-        public bool m_IsComputerControlled = false; // Is this tank player or computer controlled
+        public AudioSource m_MovementAudio;              // Tham chiếu đến nguồn âm thanh dùng để phát tiếng động cơ. NB: khác với nguồn âm thanh bắn.
+        public AudioClip m_EngineIdling;                 // Âm thanh phát khi obj không di chuyển.
+        public AudioClip m_EngineDriving;                // Âm thanh phát khi obj đang di chuyển.
+        public float m_PitchRange = 0.2f;                // Phạm vi thay đổi cao độ của tiếng động cơ.
+        [Tooltip("Nếu đặt thành true, obj này sẽ được điều khiển bởi máy tính chứ không phải người chơi")]
+        public bool m_IsComputerControlled = false; // obj này do người chơi hay máy tính điều khiển
         [HideInInspector]
-        public TankInputUser m_InputUser;            // The Input User component for that tanks. Contains the Input Actions.
-        
+        public TankInputUser m_InputUser;                // Thành phần Input User cho obj đó. Chứa các Input Action.
         public Rigidbody Rigidbody => m_Rigidbody;
-        
-        public int ControlIndex { get; set; } = -1; //this define the index of the control 1 = left keyboard or pad, 2 = right keyboard, -1 = no control
-        
-        private string m_MovementAxisName;          // The name of the input axis for moving forward and back.
-        private string m_TurnAxisName;              // The name of the input axis for turning.
-        private Rigidbody m_Rigidbody;              // Reference used to move the tank.
-        private float m_MovementInputValue;         // The current value of the movement input.
-        private float m_TurnInputValue;             // The current value of the turn input.
-        private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
-        private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
-        
-        private InputAction m_MoveAction;             // The InputAction used to move, retrieved from TankInputUser
-        private InputAction m_TurnAction;             // The InputAction used to shot, retrieved from TankInputUser
+        public int ControlIndex { get; set; } = -1; // Cái này định nghĩa chỉ số điều khiển 1 = bàn phím trái hoặc gamepad, 2 = bàn phím phải, -1 = không điều khiển
 
-        private Vector3 m_RequestedDirection;       // In Direct Control mode, store the direction the user *wants* to go toward
+        private string m_MovementAxisName;           // Tên trục input để di chuyển tiến và lùi.
+        private string m_TurnAxisName;               // Tên trục input để quay.
+        private Rigidbody m_Rigidbody;               // Tham chiếu dùng để di chuyển obj.
+        private float m_MovementInputValue;          // Giá trị hiện tại của input di chuyển.
+        private float m_TurnInputValue;              // Giá trị hiện tại của input quay.
+        private float m_OriginalPitch;               // Cao độ gốc của nguồn âm thanh khi bắt đầu cảnh.
+        private ParticleSystem[] m_particleSystems; // Tham chiếu đến tất cả các hệ thống hạt được sử dụng bởi obj
 
+        private InputAction m_MoveAction;            // InputAction dùng để di chuyển, được lấy từ TankInputUser
+        private InputAction m_TurnAction;            // InputAction dùng để bắn, được lấy từ TankInputUser
+
+        private Vector3 m_RequestedDirection;        // Trong chế độ điều khiển trực tiếp, lưu trữ hướng người dùng *muốn* đi tới
+        private Animator m_Animator;
+        private bool m_WasJumping = false;
+
+
+        // --- CÁC HÀM KHỞI TẠO (Awake, OnEnable, OnDisable, Start) GIỮ NGUYÊN ---
         private void Awake()
         {
             m_Rigidbody = GetComponent<Rigidbody>();
@@ -58,21 +61,14 @@ namespace Tanks.Complete
             m_InputUser = GetComponent<TankInputUser>();
             if (m_InputUser == null)
                 m_InputUser = gameObject.AddComponent<TankInputUser>();
+            m_Animator = GetComponentInChildren<Animator>();
         }
-
 
         private void OnEnable()
         {
-            // Computer controlled tank are kinematic
             m_Rigidbody.isKinematic = false;
-
-            // Also reset the input values.
             m_MovementInputValue = 0f;
             m_TurnInputValue = 0f;
-
-            // We grab all the Particle systems child of that Tank to be able to Stop/Play them on Deactivate/Activate
-            // It is needed because we move the Tank when spawning it, and if the Particle System is playing while we do that
-            // it "think" it move from (0,0,0) to the spawn point, creating a huge trail of smoke
             m_particleSystems = GetComponentsInChildren<ParticleSystem>();
             for (int i = 0; i < m_particleSystems.Length; ++i)
             {
@@ -80,149 +76,79 @@ namespace Tanks.Complete
             }
         }
 
-
-        private void OnDisable ()
+        private void OnDisable()
         {
-            // When the tank is turned off, set it to kinematic so it stops moving.
             m_Rigidbody.isKinematic = true;
-
-            // Stop all particle system so it "reset" it's position to the actual one instead of thinking we moved when spawning
-            for(int i = 0; i < m_particleSystems.Length; ++i)
+            for (int i = 0; i < m_particleSystems.Length; ++i)
             {
                 m_particleSystems[i].Stop();
             }
         }
 
-
-        private void Start ()
+        // OnNetworkSpawn được gọi thay cho Start khi làm việc với Netcode
+        public override void OnNetworkSpawn()
         {
-            // If this is computer controlled...
             if (m_IsComputerControlled)
             {
-                // but it doesn't have an AI component...
+                // nhưng nó không có thành phần AI...
                 var ai = GetComponent<TankAI>();
                 if (ai == null)
                 {
-                    // we add it, to ensure this will control the tank.
-                    // This is only useful when user test tank in empty scene, otherwise the TankManager ensure 
-                    // computer controlled tank are setup properly
+                    // chúng ta thêm nó, để đảm bảo cái này sẽ điều khiển obj.
+                    // Điều này chỉ hữu ích khi người dùng kiểm tra obj trong cảnh trống, nếu không TankManager đảm bảo
+                    // obj do máy tính điều khiển được thiết lập đúng cách
                     gameObject.AddComponent<TankAI>();
                 }
             }
 
-            // If no control index was set, this mean this is a scene without a GameManager and that tank was manually
-            // added to an empty scene, so we used the manually set Player Number in the Inspector as the ControlIndex,
-            // so Player 1 will be ControlIndex 1 -> KeyboardLeft and Player 2 -> KeyboardRight
-            if (ControlIndex == -1 && !m_IsComputerControlled)
+            // Chỉ chủ sở hữu mới cần thiết lập input
+            if (IsOwner)
             {
-                ControlIndex = m_PlayerNumber;
-            }
-            
-            var mobileControl = FindAnyObjectByType<MobileUIControl>();
-            
-            // By default, ControlIndex 1 is matched to KeyboardLeft. But if there is a mobile UI control component in the scene
-            // and it is active (so we either are on mobile or it was force activated to test by the user) then we instead 
-            // match ControlIndex 1 to the virtual Gamepad on screen.
-            if (mobileControl != null && ControlIndex == 1)
-            {
-                m_InputUser.SetNewInputUser(InputUser.PerformPairingWithDevice(mobileControl.Device));
-                m_InputUser.ActivateScheme("Gamepad");
-            }
-            else
-            {
-                // otherwise if no mobile ui control is active, ControlIndex is KeyboardLeft scheme and ControlIndex 2 is KeyboardRight
-                m_InputUser.ActivateScheme(ControlIndex == 1 ? "KeyboardLeft" : "KeyboardRight");
+                if (ControlIndex == -1 && !m_IsComputerControlled)
+                {
+                    ControlIndex = m_PlayerNumber;
+                }
+
+                var mobileControl = FindAnyObjectByType<MobileUIControl>();
+                if (mobileControl != null && ControlIndex == 1)
+                {
+                    m_InputUser.SetNewInputUser(InputUser.PerformPairingWithDevice(mobileControl.Device));
+                    m_InputUser.ActivateScheme("Gamepad");
+                }
+                else
+                {
+                    m_InputUser.ActivateScheme(ControlIndex == 1 ? "KeyboardLeft" : "KeyboardRight");
+                }
+
+                m_MovementAxisName = "Vertical";
+                m_TurnAxisName = "Horizontal";
+
+                m_MoveAction = m_InputUser.ActionAsset.FindAction(m_MovementAxisName);
+                m_TurnAction = m_InputUser.ActionAsset.FindAction(m_TurnAxisName);
+                m_JumpAction = m_InputUser.ActionAsset.FindAction("Jump");
+
+                if (m_JumpAction != null) m_JumpAction.Enable();
+                m_MoveAction.Enable();
+                m_TurnAction.Enable();
             }
 
-            // The axes names are based on player number.
-            m_MovementAxisName = "Vertical";
-            m_TurnAxisName = "Horizontal";
-            
-            // Get the action input from the TankInputUser component which will have taken care of copying them and
-            // binding them to the right device and control scheme
-            m_MoveAction = m_InputUser.ActionAsset.FindAction(m_MovementAxisName);
-            m_TurnAction = m_InputUser.ActionAsset.FindAction(m_TurnAxisName);
-            m_JumpAction = m_InputUser.ActionAsset.FindAction("Jump");
-            if (m_JumpAction != null)
-            {
-                m_JumpAction.Enable();
-            }
-            
-            // actions need to be enabled before they can react to input
-            m_MoveAction.Enable();
-            m_TurnAction.Enable();
-            
-            // Store the original pitch of the audio source.
             m_OriginalPitch = m_MovementAudio.pitch;
         }
 
-
-        private void Update ()
+        private void Update()
         {
-            // Computer controlled tank will be moved by the TankAI component, so only read input for player controlled tanks
-            if (!m_IsComputerControlled)
+            // THAY ĐỔI LOGIC: Chỉ chủ sở hữu mới đọc input
+            if (IsOwner && !m_IsComputerControlled)
             {
                 m_MovementInputValue = m_MoveAction.ReadValue<float>();
                 m_TurnInputValue = m_TurnAction.ReadValue<float>();
-            }
-            m_IsGrounded = Physics.CheckSphere(m_GroundCheck.position, m_GroundCheckRadius, m_GroundMask);
-            Debug.Log($"IsGrounded: {m_IsGrounded}");
-            
-            EngineAudio ();
-        }
-
-
-        private void EngineAudio ()
-        {
-            // If there is no input (the tank is stationary)...
-            if (Mathf.Abs (m_MovementInputValue) < 0.1f && Mathf.Abs (m_TurnInputValue) < 0.1f)
-            {
-                // ... and if the audio source is currently playing the driving clip...
-                if (m_MovementAudio.clip == m_EngineDriving)
-                {
-                    // ... change the clip to idling and play it.
-                    m_MovementAudio.clip = m_EngineIdling;
-                    m_MovementAudio.pitch = Random.Range (m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
-                    m_MovementAudio.Play ();
-                }
-            }
-            else
-            {
-                // Otherwise if the tank is moving and if the idling clip is currently playing...
-                if (m_MovementAudio.clip == m_EngineIdling)
-                {
-                    // ... change the clip to driving and play.
-                    m_MovementAudio.clip = m_EngineDriving;
-                    m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
-                    m_MovementAudio.Play();
-                }
-            }
-        }
-
-
-        private void FixedUpdate()
-        {
-            // If this is using a gamepad or have direct control enabled, this used a different movement method : instead of
-            // "up" behind moving forward for the tank, it instead takes the gamepad move direction as the desired forward for the tank
-            // and will compute the speed and rotation needed to move the tank toward that direction.
-            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
-            {
-                var camForward = Camera.main.transform.forward;
-                camForward.y = 0;
-                camForward.Normalize();
-                var camRight = Vector3.Cross(Vector3.up, camForward);
-
-                //this creates a vector based on camera look (e.g. pressing up mean we want to go up in the direction of the
-                //camera, not forward in the direction of the tank)
-                m_RequestedDirection = (camForward * m_MovementInputValue + camRight * m_TurnInputValue);
+                HandleJump(); // Chỉ chủ sở hữu mới có thể nhảy
             }
 
-            // Adjust the rigidbodies position and orientation in FixedUpdate.
-            Move();
-            Turn();
+            // Các hàm hiển thị chạy cho tất cả mọi người
             CheckGrounded();
-            HandleJump();
-
+            EngineAudio();
+            UpdateAnimatorStates();
         }
 
         private void CheckGrounded()
@@ -239,44 +165,89 @@ namespace Tanks.Complete
             {
                 m_Rigidbody.AddForce(Vector3.up * m_JumpForce, ForceMode.Impulse);
             }
-            Debug.Log($"JumpAction active: {m_JumpAction.enabled}, PressedThisFrame: {m_JumpAction.WasPressedThisFrame()}");
-
         }
 
+        private void EngineAudio()
+        {
+            // THAY ĐỔI LOGIC: Dựa vào vận tốc thực tế, không phải input
+            // Điều này đảm bảo client khác cũng nghe được âm thanh động cơ
+            if (m_Rigidbody.linearVelocity.magnitude < 0.1f)
+            {
+                if (m_MovementAudio.clip == m_EngineDriving)
+                {
+                    m_MovementAudio.clip = m_EngineIdling;
+                    m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+                    m_MovementAudio.Play();
+                }
+            }
+            else
+            {
+                if (m_MovementAudio.clip == m_EngineIdling)
+                {
+                    m_MovementAudio.clip = m_EngineDriving;
+                    m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+                    m_MovementAudio.Play();
+                }
+            }
+        }
 
+        private void UpdateAnimatorStates()
+        {
+            if (m_Animator == null) return;
+
+            // THAY ĐỔI LOGIC: Dựa vào vận tốc thực tế, không phải input
+            // Điều này đảm bảo client khác cũng thấy được hoạt ảnh di chuyển
+            bool isMoving = m_Rigidbody.linearVelocity.magnitude > 0.1f;
+            m_Animator.SetBool("isMoving", isMoving);
+
+            bool isJumpingNow = !m_IsGrounded;
+            if (isJumpingNow != m_WasJumping)
+            {
+                m_Animator.SetBool("isJumping", isJumpingNow);
+                m_WasJumping = isJumpingNow;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            // THAY ĐỔI: Chỉ chủ sở hữu mới thực hiện logic di chuyển
+            if (!IsOwner) return;
+
+            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
+            {
+                var camForward = Camera.main.transform.forward;
+                camForward.y = 0;
+                camForward.Normalize();
+                var camRight = Vector3.Cross(Vector3.up, camForward);
+                m_RequestedDirection = (camForward * m_MovementInputValue + camRight * m_TurnInputValue);
+            }
+
+            Move();
+            Turn();
+        }
+
+        // --- CÁC HÀM Move() và Turn() GIỮ NGUYÊN ---
         private void Move()
         {
             float speedInput = 0.0f;
-
-            // In direct control mode, the speed will depend on how far from the desired direction we are
             if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
             {
                 speedInput = m_RequestedDirection.magnitude;
-                //if we are direct control, the speed of the move is based angle between current direction and the wanted
-                //direction. If under 90, full speed, then speed reduced between 90 and 180
                 speedInput *= 1.0f - Mathf.Clamp01((Vector3.Angle(m_RequestedDirection, transform.forward) - 90) / 90.0f);
             }
             else
             {
-                // in normal "tank control" the speed value is how much we press "up/forward"
                 speedInput = m_MovementInputValue;
             }
-
-            // Create a vector in the direction the tank is facing with a magnitude based on the input, speed and the time between frames.
             Vector3 movement = transform.forward * speedInput * m_Speed * Time.deltaTime;
-
-            // Apply this movement to the rigidbody's position.
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
         }
 
-
-        private void Turn ()
+        private void Turn()
         {
             Quaternion turnRotation;
-            // If in direct control...
             if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
             {
-                // Compute the rotation needed to reach the desired direction
                 float angleTowardTarget = Vector3.SignedAngle(m_RequestedDirection, transform.forward, transform.up);
                 var rotatingAngle = Mathf.Sign(angleTowardTarget) * Mathf.Min(Mathf.Abs(angleTowardTarget), m_TurnSpeed * Time.deltaTime);
                 turnRotation = Quaternion.AngleAxis(-rotatingAngle, Vector3.up);
@@ -284,13 +255,9 @@ namespace Tanks.Complete
             else
             {
                 float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
-
-                // Make this into a rotation in the y axis.
-                turnRotation = Quaternion.Euler (0f, turn, 0f);
+                turnRotation = Quaternion.Euler(0f, turn, 0f);
             }
-
-            // Apply this rotation to the rigidbody's rotation.
-            m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
+            m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
         }
     }
 }
