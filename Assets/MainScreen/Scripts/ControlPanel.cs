@@ -6,6 +6,8 @@ public class ControlPanel : MonoBehaviour
     public GameObject GameSettingScreenOne;
     public GameObject GameSettingScreenTwo;
     public GameObject model3D;
+
+    public GameSettingsUI gameSettingsUI;
     
 
     private GameObject[] allPanels;
@@ -31,6 +33,11 @@ public class ControlPanel : MonoBehaviour
     }
     public void ShowGameSettingTwo()
     {
+        if (gameSettingsUI != null && !gameSettingsUI.CanGoToGameSettingTwo())
+        {
+            Debug.LogWarning("Cần chọn Map, Số lượng người chơi và Số ván đấu trước khi tiếp tục!");
+            return;
+        }
         model3D.SetActive(false);
         ShowOnly(allPanels, GameSettingScreenTwo);
     }
