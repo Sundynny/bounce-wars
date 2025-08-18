@@ -62,7 +62,7 @@ public class ElementalOrb : NetworkBehaviour
         NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[senderClientId].PlayerObject;
 
         // Server tìm PowerUpDetector trên xe tăng của người chơi đó.
-        if (playerNetworkObject != null && playerNetworkObject.TryGetComponent<PowerUpDetector>(out var detector))
+        if (playerNetworkObject != null && playerNetworkObject.TryGetComponent<PowerUpDetector_NETCODE>(out var detector))
         {
             // Server gọi hàm áp dụng hiệu ứng.
             // Vì chúng ta đang ở trên server, hàm này sẽ gọi các ServerRpc trong PowerUpDetector một cách chính xác.
@@ -76,7 +76,7 @@ public class ElementalOrb : NetworkBehaviour
 
 
     // Hàm này không thay đổi, giờ nó được gọi trên Server.
-    private void ApplyEffect(PowerUpDetector detector)
+    private void ApplyEffect(PowerUpDetector_NETCODE detector)
     {
         switch (elementType)
         {

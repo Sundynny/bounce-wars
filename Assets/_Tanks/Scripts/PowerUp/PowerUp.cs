@@ -49,7 +49,7 @@ namespace Tanks.Complete
             if (other.gameObject.CompareTag("Tank"))
             {
                 // Reference to the PowerUpDetector component of the tank.
-                PowerUpDetector m_PowerUpDetector = other.gameObject.GetComponent<PowerUpDetector>();
+                PowerUpDetector_NETCODE  m_PowerUpDetector = other.gameObject.GetComponent<PowerUpDetector_NETCODE>();
 
                 // --- THAY ĐỔI QUAN TRỌNG ---
                 // Kiểm tra xem xe tăng có thành phần PowerUpDetector không.

@@ -7,7 +7,7 @@ namespace Tanks.Complete
 {
     // --- THAY ĐỔI NETCODE ---
     // Script này cần kế thừa từ NetworkBehaviour để có thể sử dụng ServerRpc và ClientRpc.
-    public class PowerUpDetector : NetworkBehaviour
+    public class PowerUpDetector_NETCODE : NetworkBehaviour
     {
         // --- CÁC BIẾN VÀ COMMENT GỐC CỦA BẠN ĐƯỢC GIỮ NGUYÊN ---
 
