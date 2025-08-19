@@ -1,0 +1,11 @@
+{
+    "asset": "6ce5191c66d7b2947b7404c740d93ff5",
+    "fileName": "0198c31c-148e-7cf4-9e2d-45fcc396fa62_Preview.png",
+    "prompt": "Material for a 3D desert background suitable for a split-screen game interface. The material should complement a minimalist UI with white and black text elements.",
+    "negativePrompt": "",
+    "model": "575ecf67-4425-4939-97b9-5e138b8ee234",
+    "modelName": "Unity Texture2D",
+    "customSeed": 1378677416,
+    "w3CTraceId": "a7d5c2052d465f47437a32db06cf076e",
+    "refinementMode": "Generation"
+}
