@@ -10,7 +10,7 @@ namespace Tanks.Complete
     /// Xử lý việc điều khiển xe tăng khi xe tăng được thiết lập do Máy tính điều khiển
     /// </summary>
     // --- THAY ĐỔI NETCODE ---
-    public class TankAI : NetworkBehaviour
+    public class TankAI_NETCODE : NetworkBehaviour
     {
         // --- CÁC BIẾN VÀ COMMENT GỐC CỦA BẠN ĐƯỢC GIỮ NGUYÊN ---
         enum State

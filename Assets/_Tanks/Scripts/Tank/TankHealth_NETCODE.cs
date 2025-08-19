@@ -4,7 +4,7 @@ using Unity.Netcode;
 
 namespace Tanks.Complete
 {
-    public class TankHealth : NetworkBehaviour
+    public class TankHealth_NETCOODE : NetworkBehaviour
     {
         // --- Tất cả các biến và các hàm Awake, OnDestroy, OnNetworkSpawn, OnNetworkDespawn, OnHealthChanged giữ nguyên ---
         public float m_StartingHealth = 100f;
@@ -124,7 +124,7 @@ namespace Tanks.Complete
 
             // --- ĐOẠN MÃ ĐÃ ĐƯỢC DI CHUYỂN LÊN ĐÂY ---
             // Server xử lý logic rơi vật phẩm trước khi ra lệnh cho client hiển thị hiệu ứng.
-            TankFlagCarrier carrier = GetComponent<TankFlagCarrier>();
+            TankFlagCarrier_NETCODES carrier = GetComponent<TankFlagCarrier_NETCODES>();
             if (carrier != null)
             {
                 // Gọi hàm để thả tất cả các vật phẩm mà xe tăng này đang mang.

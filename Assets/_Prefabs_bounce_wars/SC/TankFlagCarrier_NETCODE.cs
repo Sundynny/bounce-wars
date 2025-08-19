@@ -2,7 +2,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class TankFlagCarrier : NetworkBehaviour
+public class TankFlagCarrier_NETCODES : NetworkBehaviour
 {
     [Header("Gameplay Settings")]
     [Tooltip("Số lượng vật thể tối đa có thể mang cùng lúc.")]
@@ -119,7 +119,7 @@ public class TankFlagCarrier : NetworkBehaviour
         if (!IsOwner) return;
 
         // Ưu tiên kiểm tra xem có phải là một Point_Controller để nhặt không.
-        if (other.TryGetComponent(out Point_Controller pointObject))
+        if (other.TryGetComponent(out Point_Controller_NETCODE pointObject))
         {
             // Kiểm tra sơ bộ trên client để tránh gửi yêu cầu không cần thiết lên server nếu vật phẩm đã được nhặt.
             if (!pointObject.IsCarried)
@@ -129,7 +129,7 @@ public class TankFlagCarrier : NetworkBehaviour
             }
         }
         // Nếu không phải là vật phẩm, hãy kiểm tra xem có phải là Bàn thờ để ghi điểm không.
-        else if (other.TryGetComponent(out AltarController altar))
+        else if (other.TryGetComponent(out AltarController_NETS altar))
         {
             // Chỉ ghi điểm nếu chúng ta thực sự đang mang ít nhất một vật phẩm.
             if (IsCarryingAnyPointObject)
@@ -152,14 +152,14 @@ public class TankFlagCarrier : NetworkBehaviour
 
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(pointNetworkObjectId, out var pointNetworkObject))
         {
-            if (pointNetworkObject.TryGetComponent(out Point_Controller pointController))
+            if (pointNetworkObject.TryGetComponent(out Point_Controller_NETCODE pointController))
             {
                 if (!pointController.IsCarried)
                 {
                     // Thêm ID vào NetworkList, điều này sẽ tự động đồng bộ.
                     m_CarriedPointObjectIds.Add(pointNetworkObjectId);
                     // 2. Ra lệnh cho vật phẩm "bị bắt" và truyền ID của xe tăng này cho nó.
-                    pointController.CaptureAndFollow(NetworkObjectId);
+                    // ??? pointController.CaptureAndFollo(NetworkObjectId);
                     // 3. Ra lệnh cho tất cả client phát hiệu ứng.
                     PlayPickupEffectClientRpc();
                 }

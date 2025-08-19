@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.Netcode; // --- THAY ĐỔI NETCODE ---
 
 // --- THAY ĐỔI NETCODE ---
-public class Point_Controller : NetworkBehaviour
+public class Point_Controller_NETCODE : NetworkBehaviour
 {
     // --- NETCODE STATE ---
     // Chuyển đổi trạng thái IsCarried sang NetworkVariable.

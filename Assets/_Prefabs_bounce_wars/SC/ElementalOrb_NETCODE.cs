@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.Netcode; // --- THAY ĐỔI NETCODE ---
 
 // --- THAY ĐỔI NETCODE ---
-public class ElementalOrb : NetworkBehaviour
+public class ElementalOrb_NETCODES : NetworkBehaviour
 {
     // --- CÁC BIẾN VÀ COMMENT GỐC CỦA BẠN ĐƯỢC GIỮ NGUYÊN ---
     public enum ElementType

@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Unity.Netcode; // --- THAY ĐỔI NETCODE ---
 
 namespace Tanks.Complete
 {
-    // --- THAY ĐỔI NETCODE ---
-    public class TankShooting_NETCODE : NetworkBehaviour
+    public class TankShooting : MonoBehaviour
     {
-        // --- CÁC BIẾN VÀ COMMENT GỐC CỦA BẠN ĐƯỢC GIỮ NGUYÊN ---
         private LineRenderer m_TrajectoryLine;
         private int m_TrajectoryResolution = 30;
         private float m_TrajectoryTimeStep = 0.1f;
@@ -55,19 +52,17 @@ namespace Tanks.Complete
         private float m_BaseMinLaunchForce;         // Giá trị ban đầu của m_MinLaunchForce
         private float m_ShotCooldownTimer;          // Bộ đếm thời gian đếm ngược trước khi được phép bắn lại
 
-        // --- CÁC HÀM CŨ (OnEnable, Awake) HẦU HẾT GIỮ NGUYÊN ---
         private void OnEnable()
         {
+            // Khi xe tăng được bật, đặt lại lực bắn, giao diện người dùng và các vật phẩm tăng sức mạnh
             m_CurrentLaunchForce = m_MinLaunchForce;
             m_BaseMinLaunchForce = m_MinLaunchForce;
-            if (m_AimSlider != null)
-            {
-                m_AimSlider.value = m_BaseMinLaunchForce;
-                m_AimSlider.minValue = m_MinLaunchForce;
-                m_AimSlider.maxValue = m_MaxLaunchForce;
-            }
+            m_AimSlider.value = m_BaseMinLaunchForce;
             m_HasSpecialShell = false;
             m_SpecialShellMultiplier = 1.0f;
+
+            m_AimSlider.minValue = m_MinLaunchForce;
+            m_AimSlider.maxValue = m_MaxLaunchForce;
         }
 
         private void Awake()
@@ -78,47 +73,43 @@ namespace Tanks.Complete
             m_TrajectoryLine = GetComponent<LineRenderer>();
         }
 
-        // --- THAY ĐỔI NETCODE ---
-        // Sử dụng OnNetworkSpawn thay cho Start để đảm bảo các thuộc tính mạng đã sẵn sàng
-        public override void OnNetworkSpawn()
+        private void Start()
         {
-            // Chỉ chủ sở hữu mới cần thiết lập input
-            if (IsOwner)
-            {
-                m_FireButton = "Fire";
-                fireAction = m_InputUser.ActionAsset.FindAction(m_FireButton);
-                if (fireAction != null) fireAction.Enable();
-            }
+            // Trục bắn được dựa trên số của người chơi.
+            m_FireButton = "Fire";
+            fireAction = m_InputUser.ActionAsset.FindAction(m_FireButton);
 
+            fireAction.Enable();
+
+            // Tốc độ tăng của lực bắn là phạm vi các lực có thể có chia cho thời gian nạp tối đa.
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
         }
 
 
         private void Update()
         {
-            // --- THAY ĐỔI NETCODE ---
-            // Logic bắn chỉ nên chạy trên máy của chủ sở hữu
-            if (!IsOwner) return;
-
+            // Xe tăng do Máy tính và Người chơi điều khiển sử dụng 2 hàm cập nhật khác nhau
             if (!m_IsComputerControlled)
             {
                 HumanUpdate();
             }
             else
             {
-                // Logic AI sẽ cần được xử lý riêng, thường là chỉ chạy trên server
-                // Tạm thời bỏ qua để tập trung vào người chơi
-                // ComputerUpdate();
+                ComputerUpdate();
             }
         }
 
-        // --- CÁC HÀM AI GIỮ NGUYÊN ---
+        /// <summary>
+        /// Được AI sử dụng để bắt đầu nạp đạn
+        /// </summary>
         public void StartCharging()
         {
             m_IsCharging = true;
+            // ... đặt lại cờ đã bắn và đặt lại lực bắn.
             m_Fired = false;
             m_CurrentLaunchForce = m_MinLaunchForce;
 
+            // Thay đổi clip âm thanh thành clip nạp đạn và bắt đầu phát.
             m_ShootingAudio.clip = m_ChargingClip;
             m_ShootingAudio.Play();
         }
@@ -127,74 +118,103 @@ namespace Tanks.Complete
         {
             if (m_IsCharging)
             {
-                // --- THAY ĐỔI NETCODE ---
-                // AI (chạy trên server) sẽ gọi trực tiếp ServerRpc
-                FireServerRpc(m_CurrentLaunchForce, m_HasSpecialShell);
+                Fire();
                 m_IsCharging = false;
             }
         }
 
         void ComputerUpdate()
         {
-            // ... (Logic AI hiện tại sẽ không hoạt động đúng trên client, cần được chạy trên server)
-        }
-
-
-        void HumanUpdate()
-        {
-            if (m_ShotCooldownTimer > 0.0f)
-            {
-                m_ShotCooldownTimer -= Time.deltaTime;
-            }
-
+            // Thanh trượt nên có giá trị mặc định là lực bắn tối thiểu.
             m_AimSlider.value = m_BaseMinLaunchForce;
 
+            // Nếu lực tối đa đã bị vượt quá và quả đạn vẫn chưa được phóng đi...
             if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
             {
+                // ... sử dụng lực tối đa và phóng quả đạn.
                 m_CurrentLaunchForce = m_MaxLaunchForce;
-                // --- THAY ĐỔI NETCODE ---
-                // Gọi hàm yêu cầu server bắn
-                FireServerRpc(m_CurrentLaunchForce, m_HasSpecialShell);
-                m_Fired = true; // Đánh dấu đã bắn để không gọi lại
+                Fire();
             }
-            else if (m_ShotCooldownTimer <= 0 && fireAction.WasPressedThisFrame())
+            // Ngược lại, nếu nút bắn đang được giữ và quả đạn vẫn chưa được phóng đi...
+            else if (m_IsCharging && !m_Fired)
             {
-                m_IsCharging = true; // Bắt đầu nạp đạn
-                m_Fired = false;
-                m_CurrentLaunchForce = m_MinLaunchForce;
-                m_ShootingAudio.clip = m_ChargingClip;
-                m_ShootingAudio.Play();
-            }
-            else if (fireAction.IsPressed() && !m_Fired)
-            {
-                m_IsCharging = true; // Đang nạp đạn
+                // Tăng lực bắn và cập nhật thanh trượt.
                 m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
+
                 m_AimSlider.value = m_CurrentLaunchForce;
             }
+            // Ngược lại, nếu nút bắn được thả ra và quả đạn vẫn chưa được phóng đi...
             else if (fireAction.WasReleasedThisFrame() && !m_Fired)
             {
-                // --- THAY ĐỔI NETCODE ---
-                // Gọi hàm yêu cầu server bắn
-                FireServerRpc(m_CurrentLaunchForce, m_HasSpecialShell);
-                m_IsCharging = false; // Ngừng nạp đạn
-                m_Fired = true; // Đánh dấu đã bắn
+                // ... phóng quả đạn.
+                Fire();
+                m_IsCharging = false;
             }
-
-            // Hiển thị đường đạn chỉ cho người chơi đang ngắm bắn
             if (m_IsCharging && !m_Fired)
             {
                 ShowTrajectory(m_CurrentLaunchForce);
             }
             else
             {
-                if (m_TrajectoryLine != null) m_TrajectoryLine.positionCount = 0;
+                m_TrajectoryLine.positionCount = 0;
+            }
+        }
+
+        void HumanUpdate()
+        {
+            // nếu có bộ đếm thời gian hồi chiêu, hãy giảm nó đi
+            if (m_ShotCooldownTimer > 0.0f)
+            {
+                m_ShotCooldownTimer -= Time.deltaTime;
+            }
+
+            // Thanh trượt nên có giá trị mặc định là lực bắn tối thiểu.
+            m_AimSlider.value = m_BaseMinLaunchForce;
+
+            // Nếu lực tối đa đã bị vượt quá và quả đạn vẫn chưa được phóng đi...
+            if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
+            {
+                // ... sử dụng lực tối đa và phóng quả đạn.
+                m_CurrentLaunchForce = m_MaxLaunchForce;
+                Fire();
+            }
+            // Ngược lại, nếu nút bắn vừa mới bắt đầu được nhấn...
+            else if (m_ShotCooldownTimer <= 0 && fireAction.WasPressedThisFrame())
+            {
+                // ... đặt lại cờ đã bắn và đặt lại lực bắn.
+                m_Fired = false;
+                m_CurrentLaunchForce = m_MinLaunchForce;
+
+                // Thay đổi clip âm thanh thành clip nạp đạn và bắt đầu phát.
+                m_ShootingAudio.clip = m_ChargingClip;
+                m_ShootingAudio.Play();
+            }
+            // Ngược lại, nếu nút bắn đang được giữ và quả đạn vẫn chưa được phóng đi...
+            else if (fireAction.IsPressed() && !m_Fired)
+            {
+                // Tăng lực bắn và cập nhật thanh trượt.
+                m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
+
+                m_AimSlider.value = m_CurrentLaunchForce;
+            }
+            // Ngược lại, nếu nút bắn được thả ra và quả đạn vẫn chưa được phóng đi...
+            else if (fireAction.WasReleasedThisFrame() && !m_Fired)
+            {
+                // ... phóng quả đạn.
+                Fire();
+            }
+            if (fireAction.IsPressed() && !m_Fired)
+            {
+                ShowTrajectory(m_CurrentLaunchForce);
+            }
+            else
+            {
+                m_TrajectoryLine.positionCount = 0; // Ẩn khi không bắn
             }
         }
 
         private void ShowTrajectory(float launchForce)
         {
-            if (m_TrajectoryLine == null) return;
-            // ... (Logic vẽ đường đạn giữ nguyên)
             Vector3[] points = new Vector3[m_TrajectoryResolution];
             Vector3 startPos = m_FireTransform.position;
             Vector3 startVelocity = m_FireTransform.forward * launchForce;
@@ -210,51 +230,42 @@ namespace Tanks.Complete
             m_TrajectoryLine.SetPositions(points);
         }
 
-        // --- THAY ĐỔI NETCODE ---
-        // [ServerRpc] đánh dấu hàm này sẽ được gọi bởi Client, nhưng thực thi trên Server.
-        [ServerRpc]
-        private void FireServerRpc(float launchForce, bool hasSpecialShell)
+
+
+        private void Fire()
         {
-            // --- LOGIC CỦA HÀM FIRE() CŨ ĐƯỢC CHUYỂN VÀO ĐÂY ---
-            // Server là người tạo ra viên đạn
+            m_Fired = true;
+
             Rigidbody shellInstance =
                 Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
-            // Lấy NetworkObject của viên đạn và cho nó xuất hiện trên mạng
-            NetworkObject shellNetworkObject = shellInstance.GetComponent<NetworkObject>();
-            shellNetworkObject.Spawn(true); // true để server sở hữu viên đạn
+            shellInstance.linearVelocity = m_CurrentLaunchForce * m_FireTransform.forward;
 
-            // Thiết lập các thuộc tính và vận tốc cho viên đạn
-            shellInstance.linearVelocity = launchForce * m_FireTransform.forward;
             ShellExplosion explosionData = shellInstance.GetComponent<ShellExplosion>();
             if (explosionData != null)
             {
                 explosionData.m_ExplosionForce = m_ExplosionForce;
                 explosionData.m_ExplosionRadius = m_ExplosionRadius;
-                // Sát thương được tính toán với thông tin từ client
-                explosionData.m_MaxDamage = hasSpecialShell ? m_MaxDamage * m_SpecialShellMultiplier : m_MaxDamage;
+                explosionData.m_MaxDamage = m_MaxDamage;
             }
 
-            // --- KẾT THÚC LOGIC FIRE() CŨ ---
-
-            // Sau khi tạo đạn, server ra lệnh cho tất cả client phát âm thanh bắn
-            FireClientRpc();
-
-            // Nếu có đạn đặc biệt, Server sẽ phải cập nhật trạng thái đó (nếu cần)
-            if (hasSpecialShell)
+            // --- PHẦN SỬA LỖI ---
+            if (m_HasSpecialShell)
             {
-                // TODO: Logic reset đạn đặc biệt nếu có
-            }
-        }
+                if (explosionData != null)
+                    explosionData.m_MaxDamage *= m_SpecialShellMultiplier;
 
-        // --- THAY ĐỔI NETCODE ---
-        // [ClientRpc] đánh dấu hàm này sẽ được gọi bởi Server, nhưng thực thi trên TẤT CẢ các Client.
-        [ClientRpc]
-        private void FireClientRpc()
-        {
-            // Logic reset trạng thái và hiệu ứng cục bộ trên MỌI máy
-            m_CurrentLaunchForce = m_MinLaunchForce;
-            m_ShotCooldownTimer = m_ShotCooldown;
+                m_HasSpecialShell = false;
+                m_SpecialShellMultiplier = 1f;
+
+                // Đoạn mã cũ gây lỗi đã được XÓA.
+                // Logic này không còn cần thiết vì hệ thống PowerUpDetector mới không sử dụng biến m_HasActivePowerUp.
+
+                PowerUpHUD powerUpHUD = GetComponentInChildren<PowerUpHUD>();
+                if (powerUpHUD != null)
+                    powerUpHUD.DisableActiveHUD();
+            }
+            // --- KẾT THÚC PHẦN SỬA LỖI ---
 
             if (m_ShootingAudio != null && m_FireClip != null)
             {
@@ -262,29 +273,48 @@ namespace Tanks.Complete
                 m_ShootingAudio.Play();
             }
 
-            // Xử lý logic đạn đặc biệt trên client (ví dụ: tắt HUD)
-            if (m_HasSpecialShell)
-            {
-                m_HasSpecialShell = false;
-                m_SpecialShellMultiplier = 1f;
-
-                PowerUpHUD powerUpHUD = GetComponentInChildren<PowerUpHUD>();
-                if (powerUpHUD != null)
-                    powerUpHUD.DisableActiveHUD();
-            }
+            m_CurrentLaunchForce = m_MinLaunchForce;
+            m_ShotCooldownTimer = m_ShotCooldown;
         }
 
-        // Các hàm còn lại giữ nguyên
         public void EquipSpecialShell(float damageMultiplier)
         {
             m_HasSpecialShell = true;
             m_SpecialShellMultiplier = damageMultiplier;
         }
 
+        /// <summary>
+        /// Trả về vị trí ước tính mà đạn sẽ có với mức độ nạp (từ 0 đến 1)
+        /// </summary>
+        /// <param name="chargingLevel">Mức độ nạp bắn từ 0 - 1</param>
+        /// <returns>Vị trí mà đạn sẽ ở (bỏ qua chướng ngại vật)</returns>
         public Vector3 GetProjectilePosition(float chargingLevel)
         {
-            // ... (Logic giữ nguyên)
-            return Vector3.zero; // Thay thế bằng logic cũ của bạn
+            float chargeLevel = Mathf.Lerp(m_MinLaunchForce, m_MaxLaunchForce, chargingLevel);
+            Vector3 velocity = chargeLevel * m_FireTransform.forward;
+
+            float a = 0.5f * Physics.gravity.y;
+            float b = velocity.y;
+            float c = m_FireTransform.position.y;
+
+            float sqrtContent = b * b - 4 * a * c;
+            //không có giải pháp
+            if (sqrtContent <= 0)
+            {
+                return m_FireTransform.position;
+            }
+
+            float answer1 = (-b + Mathf.Sqrt(sqrtContent)) / (2 * a);
+            float answer2 = (-b - Mathf.Sqrt(sqrtContent)) / (2 * a);
+
+            float answer = answer1 > 0 ? answer1 : answer2;
+
+            Vector3 position = m_FireTransform.position +
+                               new Vector3(velocity.x, 0, velocity.z) *
+                               answer;
+            position.y = 0;
+
+            return position;
         }
     }
 }
