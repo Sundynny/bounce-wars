@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class quaynhanvat : MonoBehaviour
 {
-    public float rotationSpeed = 20f; // Tốc độ quay (độ/giây)
+    public float rotationSpeed = 20f;
 
     void Update()
     {

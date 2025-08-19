@@ -15,6 +15,6 @@ public class CameraFolloww : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
 
         // Luôn nhìn vào nhân vật
-        transform.LookAt(target.position + Vector3.up * 1.5f);
+        transform.LookAt(target.position + Vector3.up * 0.5f);
     }
 }

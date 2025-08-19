@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class MusicManager : MonoBehaviour
 {
     public AudioSource musicSource;
-    public Image musicButtonImage;   // Ảnh của nút nhạc
+    public Image musicButtonImage;
     public Sprite musicOnIcon;
     public Sprite musicOffIcon;
 
@@ -12,8 +12,7 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        // Lấy trạng thái lưu trước đó (1 = bật, 0 = tắt)
-        isMusicOn = PlayerPrefs.GetInt("MusicOn", 1) == 1;
+        isMusicOn = PlayerPrefs.GetInt("MusicOn", 1) == 1;//(1 = bật, 0 = tắt)
 
         if (musicSource == null)
             musicSource = GetComponent<AudioSource>();
