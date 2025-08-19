@@ -1,17 +1,8 @@
 fileFormatVersion: 2
-guid: a5aff738ba9134955a0a1356cc31380d
+guid: 4269a5d0a3603d74eb23a48dfc97e8c0
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 11400000
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 290230
-  packageName: Projectile Factory for AAA Stylized Projectiles Vol. 1 by HOVL Studio
-  packageVersion: 1.0
-  assetPath: Assets/InfinityPBR - Magic Pig Games/Projectile Factory/Asset Store
-    Integrations/AAA Stylized Projectiles Vol.1/Data Objects/Spawn Behavior Modification/AAA
-    Projectiles Vol 1 - Muzzle 25 orange explosion.asset
-  uploadId: 677415
