@@ -21,7 +21,7 @@ namespace Tanks.Complete
         [Tooltip("Số người chơi. Không có menu chọn obj, Người chơi 1 điều khiển bằng bàn phím trái, Người chơi 2 điều khiển bằng bàn phím phải")]
         public int m_PlayerNumber = 1;                   // Dùng để xác định obj nào thuộc về người chơi nào. Cái này được thiết lập bởi bộ quản lý của obj.
         [Tooltip("Tốc độ (đơn vị unity/giây) mà obj di chuyển")]
-        public float m_Speed = 12f;                      // Tốc độ obj di chuyển tới và lùi.
+        public float m_Speed = 6f;                      // Tốc độ obj di chuyển tới và lùi.
         [Tooltip("Tốc độ xoay của obj theo độ/giây")]
         public float m_TurnSpeed = 180f;                 // Tốc độ obj quay theo độ mỗi giây.
         [Tooltip("Nếu đặt thành true, obj tự động định hướng và di chuyển theo hướng nhấn thay vì xoay trái/phải và di chuyển tiến lên")]
@@ -52,8 +52,12 @@ namespace Tanks.Complete
 
         private Vector3 m_RequestedDirection;        // Trong chế độ điều khiển trực tiếp, lưu trữ hướng người dùng *muốn* đi tới
 
+        private Animator m_Animator;
+
         private void Awake()
         {
+            m_Animator = GetComponent<Animator>();
+
             m_Rigidbody = GetComponent<Rigidbody>();
 
             m_InputUser = GetComponent<TankInputUser>();
@@ -170,6 +174,11 @@ namespace Tanks.Complete
             EngineAudio();
             CheckGrounded();
             HandleJump();
+
+            // --- Animation ---
+            bool isMoving = Mathf.Abs(m_MovementInputValue) > 0.1f || Mathf.Abs(m_TurnInputValue) > 0.1f;
+            m_Animator.SetBool("isMoving", isMoving);
+            m_Animator.SetBool("isJumping", !m_IsGrounded);
         }
         private void CheckGrounded()
         {
@@ -183,6 +192,7 @@ namespace Tanks.Complete
             if (m_JumpAction != null && m_JumpAction.WasPressedThisFrame() && m_IsGrounded)
             {
                 m_Rigidbody.AddForce(Vector3.up * m_JumpForce, ForceMode.Impulse);
+                m_Animator.SetTrigger("isJumping");
             }
         }
 
@@ -265,6 +275,15 @@ namespace Tanks.Complete
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
         }
 
+        public void TriggerShootAnimation()
+        {
+            m_Animator.SetTrigger("Shoot");
+        }
+
+        public void TriggerDamageAnimation()
+        {
+            m_Animator.SetTrigger("takingDamage");
+        }
 
         private void Turn()
         {
