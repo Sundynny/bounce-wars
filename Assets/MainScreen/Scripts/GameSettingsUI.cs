@@ -42,7 +42,7 @@ public class GameSettingsUI : MonoBehaviour
 
         for (int i = 0; i < matchButtons.Length; i++)
         {
-            int index = (i == 0) ? 1 : (i == 1 ? 3 : (i == 2 ? 5 : 7));
+            int index = (i == 0) ? 3 : (i == 1 ? 5 : 7);
             matchButtons[i].onClick.AddListener(() => SelectMatchCount(index));
         }
 
@@ -112,10 +112,11 @@ public class GameSettingsUI : MonoBehaviour
     {
         foreach (var btn in matchButtons)
             btn.image.color = defaultColor;
-
-        matchButtons[(count == 1) ? 0 : (count == 3 ? 1 : (count == 5 ? 2 : 3))].image.color = selectedColor;
+        int buttonIndex = (count == 3) ? 0 : (count == 5 ? 1 : 2);
+        matchButtons[buttonIndex].image.color = selectedColor;
         GameSettings.MatchCount = count;
     }
+
 
     void SetCurrentPickingPlayer(int player)
     {
