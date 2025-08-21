@@ -19,7 +19,7 @@ namespace Tanks.Complete
 
         // Các tham chiếu đến thành phần của xe tăng
         private TankShooting m_TankShooting;
-        private TankMovement m_TankMovement;
+        private TankMovement_NETCODE m_TankMovement;
         private TankHealth m_TankHealth;
         private PowerUpHUD m_PowerUpHUD;
 
@@ -32,7 +32,7 @@ namespace Tanks.Complete
         {
             // Lấy tham chiếu đến các thành phần
             m_TankShooting = GetComponent<TankShooting>();
-            m_TankMovement = GetComponent<TankMovement>();
+            m_TankMovement = GetComponent<TankMovement_NETCODE>();
             m_TankHealth = GetComponent<TankHealth>();
             m_PowerUpHUD = GetComponentInChildren<PowerUpHUD>();
 

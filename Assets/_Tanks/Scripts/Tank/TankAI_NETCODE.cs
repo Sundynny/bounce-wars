@@ -19,7 +19,7 @@ namespace Tanks.Complete
             Flee  // Bỏ chạy
         }
 
-        private TankMovement m_Movement;
+        private TankMovement_NETCODE m_Movement;
         private TankShooting m_Shooting;
         private float m_PathfindTime = 0.5f;
         private float m_PathfindTimer = 0.0f;
@@ -42,7 +42,7 @@ namespace Tanks.Complete
             if (!isActiveAndEnabled)
                 return;
 
-            m_Movement = GetComponent<TankMovement>();
+            m_Movement = GetComponent<TankMovement_NETCODE>();
             m_Shooting = GetComponent<TankShooting>();
 
             // --- THAY ĐỔI NETCODE ---

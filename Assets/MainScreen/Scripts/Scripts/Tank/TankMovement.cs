@@ -4,130 +4,125 @@ using UnityEngine.InputSystem.Users;
 
 namespace Tanks.Complete
 {
-    // Đảm bảo script này chạy trước thành phần TankShooting vì TankShooting lấy InputUser từ đây khi không có
-    // GameManager được thiết lập (được sử dụng trong quá trình học để kiểm tra obj trong các cảnh trống)
+    // [DefaultExecutionOrder(-10)]
+    // Đảm bảo script này chạy trước các script khác để chúng có thể lấy tham chiếu từ đây một cách an toàn.
     [DefaultExecutionOrder(-10)]
     public class TankMovement : MonoBehaviour
     {
+        // --- CÁC BIẾN CÀI ĐẶT ---
+        [Header("Camera Reference")]
+        [Tooltip("Kéo Camera của người chơi này vào đây. Rất quan trọng cho game split-screen!")]
+        public Camera m_PlayerCamera;
+
+        [Header("Character Style Movement")]
+        [Tooltip("Thời gian (giây) để nhân vật xoay mượt mà về hướng mới. Càng nhỏ càng xoay nhanh.")]
+        public float m_RotationSmoothTime = 0.1f;
+
+        [Header("Original Settings (Kept for Compatibility)")]
+        [Tooltip("Tốc độ di chuyển cơ bản của nhân vật (mét/giây).")]
+        public float m_Speed = 6f; // Vẫn được sử dụng trong logic di chuyển mới.
+        [Tooltip("Tốc độ xoay cũ (không còn dùng nhưng giữ lại để không gây lỗi).")]
+        public float m_TurnSpeed = 180f; // Không còn được sử dụng trong logic mới.
+        [Tooltip("Chế độ điều khiển trực tiếp cũ (logic mới mặc định là chế độ này).")]
+        public bool m_IsDirectControl; // Không còn được sử dụng trong logic mới.
+
         [Header("Jump Settings")]
-        public float m_JumpForce = 5f;  // Lực nhảy
-        public LayerMask m_GroundMask; // Lớp mặt đất để kiểm tra tiếp đất
-        public Transform m_GroundCheck; // Điểm kiểm tra tiếp đất
-        public float m_GroundCheckRadius = 0.3f; // Bán kính kiểm tra tiếp đất
+        [Tooltip("Lực đẩy nhân vật lên khi nhảy.")]
+        public float m_JumpForce = 7f;
+        [Tooltip("LayerMask để xác định đâu là 'mặt đất'.")]
+        public LayerMask m_GroundMask;
+        [Tooltip("Vị trí dùng để kiểm tra xem nhân vật có đang chạm đất không.")]
+        public Transform m_GroundCheck;
+        [Tooltip("Bán kính của vòng tròn kiểm tra chạm đất.")]
+        public float m_GroundCheckRadius = 0.3f;
 
-        private InputAction m_JumpAction; // Hành động nhảy
-        private bool m_IsGrounded = false; // Trạng thái tiếp đất
+        [Tooltip("Thời gian (giây) nhân vật phải rời đất trước khi animation rơi được kích hoạt. Giúp chống lỗi do địa hình gồ ghề.")]
+        public float m_GroundCheckDelay = 0.1f;
 
-        [Tooltip("Số người chơi. Không có menu chọn obj, Người chơi 1 điều khiển bằng bàn phím trái, Người chơi 2 điều khiển bằng bàn phím phải")]
-        public int m_PlayerNumber = 1;                   // Dùng để xác định obj nào thuộc về người chơi nào. Cái này được thiết lập bởi bộ quản lý của obj.
-        [Tooltip("Tốc độ (đơn vị unity/giây) mà obj di chuyển")]
-        public float m_Speed = 6f;                      // Tốc độ obj di chuyển tới và lùi.
-        [Tooltip("Tốc độ xoay của obj theo độ/giây")]
-        public float m_TurnSpeed = 180f;                 // Tốc độ obj quay theo độ mỗi giây.
-        [Tooltip("Nếu đặt thành true, obj tự động định hướng và di chuyển theo hướng nhấn thay vì xoay trái/phải và di chuyển tiến lên")]
-        public bool m_IsDirectControl;
-        public AudioSource m_MovementAudio;              // Tham chiếu đến nguồn âm thanh dùng để phát tiếng động cơ. NB: khác với nguồn âm thanh bắn.
-        public AudioClip m_EngineIdling;                 // Âm thanh phát khi obj không di chuyển.
-        public AudioClip m_EngineDriving;                // Âm thanh phát khi obj đang di chuyển.
-        public float m_PitchRange = 0.2f;                // Phạm vi thay đổi cao độ của tiếng động cơ.
-        [Tooltip("Nếu đặt thành true, obj này sẽ được điều khiển bởi máy tính chứ không phải người chơi")]
-        public bool m_IsComputerControlled = false; // obj này do người chơi hay máy tính điều khiển
+        [Header("Audio & Effects")]
+        public AudioSource m_MovementAudio;
+        public AudioClip m_EngineIdling;
+        public AudioClip m_EngineDriving;
+        [Tooltip("Khoảng dao động cao độ ngẫu nhiên của âm thanh để tránh bị lặp lại nhàm chán.")]
+        public float m_PitchRange = 0.2f;
+
+        [Header("Player Setup")]
+        public int m_PlayerNumber = 1;
+        public bool m_IsComputerControlled = false;
+
         [HideInInspector]
-        public TankInputUser m_InputUser;                // Thành phần Input User cho obj đó. Chứa các Input Action.
-
+        public TankInputUser m_InputUser; // Giữ nguyên để các script khác có thể tham chiếu.
         public Rigidbody Rigidbody => m_Rigidbody;
+        public int ControlIndex { get; set; } = -1;
 
-        public int ControlIndex { get; set; } = -1; // Cái này định nghĩa chỉ số điều khiển 1 = bàn phím trái hoặc gamepad, 2 = bàn phím phải, -1 = không điều khiển
-
-        private string m_MovementAxisName;           // Tên trục input để di chuyển tiến và lùi.
-        private string m_TurnAxisName;               // Tên trục input để quay.
-        private Rigidbody m_Rigidbody;               // Tham chiếu dùng để di chuyển obj.
-        private float m_MovementInputValue;          // Giá trị hiện tại của input di chuyển.
-        private float m_TurnInputValue;              // Giá trị hiện tại của input quay.
-        private float m_OriginalPitch;               // Cao độ gốc của nguồn âm thanh khi bắt đầu cảnh.
-        private ParticleSystem[] m_particleSystems; // Tham chiếu đến tất cả các hệ thống hạt được sử dụng bởi obj
-
-        private InputAction m_MoveAction;            // InputAction dùng để di chuyển, được lấy từ TankInputUser
-        private InputAction m_TurnAction;            // InputAction dùng để bắn, được lấy từ TankInputUser
-
-        private Vector3 m_RequestedDirection;        // Trong chế độ điều khiển trực tiếp, lưu trữ hướng người dùng *muốn* đi tới
-
+        // --- CÁC BIẾN NỘI BỘ (PRIVATE) ---
+        private Rigidbody m_Rigidbody;
         private Animator m_Animator;
 
+        // Biến cho Input System
+        private float m_MovementInputValue;
+        private float m_TurnInputValue;
+        private InputAction m_MoveAction;
+        private InputAction m_TurnAction;
+        private InputAction m_JumpAction;
+        private Vector3 m_InputDirection;   // Vector lưu hướng di chuyển mong muốn
+
+        // Biến cho Audio & Effects
+        private float m_OriginalPitch;
+        private ParticleSystem[] m_particleSystems;
+
+        // Biến cho Logic trạng thái
+        private bool m_IsGrounded = false;
+        private bool m_IsHasted = false;
+        private float m_TurnSmoothVelocity; // Biến phụ cho việc xoay mượt
+
+        // Biến cho các giải pháp mới
+        private float m_TimeSinceLeftGround = 0f; // Bộ đếm thời gian từ khi rời đất
+        private Vector3 m_LastPosition; // Vị trí ở frame trước để tính vận tốc
+        private float m_CurrentSpeed; // Vận tốc thực tế hiện tại
+
+
+        // Awake được gọi khi script instance được tải. Dùng để khởi tạo tham chiếu.
         private void Awake()
         {
-            m_Animator = GetComponent<Animator>();
-
             m_Rigidbody = GetComponent<Rigidbody>();
-
             m_InputUser = GetComponent<TankInputUser>();
             if (m_InputUser == null)
                 m_InputUser = gameObject.AddComponent<TankInputUser>();
+
+            m_Animator = GetComponentInChildren<Animator>();
         }
 
-
+        // OnEnable được gọi mỗi khi GameObject được kích hoạt. Dùng để reset trạng thái.
         private void OnEnable()
         {
-            // obj do máy tính điều khiển thì có tính chất kinematic
             m_Rigidbody.isKinematic = false;
-
-            // Cũng đặt lại các giá trị input.
             m_MovementInputValue = 0f;
             m_TurnInputValue = 0f;
-
-            // Chúng ta lấy tất cả các hệ thống hạt con của obj này để có thể Dừng/Phát chúng khi Deactivate/Activate
-            // Điều này cần thiết vì chúng ta di chuyển obj khi spawn, và nếu hệ thống hạt đang phát khi chúng ta làm vậy
-            // nó "nghĩ" nó di chuyển từ (0,0,0) đến điểm spawn, tạo ra một vệt khói lớn
             m_particleSystems = GetComponentsInChildren<ParticleSystem>();
             for (int i = 0; i < m_particleSystems.Length; ++i)
-            {
                 m_particleSystems[i].Play();
-            }
         }
 
-
+        // OnDisable được gọi mỗi khi GameObject bị vô hiệu hóa.
         private void OnDisable()
         {
-            // Khi obj bị tắt, đặt nó thành kinematic để nó ngừng di chuyển.
             m_Rigidbody.isKinematic = true;
-
-            // Dừng tất cả các hệ thống hạt để nó "đặt lại" vị trí của nó về vị trí thực tế thay vì nghĩ rằng chúng ta đã di chuyển khi spawn
             for (int i = 0; i < m_particleSystems.Length; ++i)
-            {
                 m_particleSystems[i].Stop();
-            }
         }
 
-
+        // Start được gọi trước frame đầu tiên. Dùng để thiết lập logic.
         private void Start()
         {
-            // Nếu đây là obj do máy tính điều khiển...
+            // Thiết lập Input System cho AI, PC hoặc Mobile.
             if (m_IsComputerControlled)
             {
-                // nhưng nó không có thành phần AI...
                 var ai = GetComponent<TankAI>();
-                if (ai == null)
-                {
-                    // chúng ta thêm nó, để đảm bảo cái này sẽ điều khiển obj.
-                    // Điều này chỉ hữu ích khi người dùng kiểm tra obj trong cảnh trống, nếu không TankManager đảm bảo
-                    // obj do máy tính điều khiển được thiết lập đúng cách
-                    gameObject.AddComponent<TankAI>();
-                }
+                if (ai == null) { gameObject.AddComponent<TankAI>(); }
             }
-
-            // Nếu không có chỉ số điều khiển nào được đặt, điều này có nghĩa đây là một cảnh không có GameManager và obj đó đã được thêm thủ công
-            // vào một cảnh trống, vì vậy chúng ta sử dụng Số người chơi được đặt thủ công trong Inspector làm ControlIndex,
-            // để Người chơi 1 sẽ là ControlIndex 1 -> Bàn phím trái và Người chơi 2 -> Bàn phím phải
-            if (ControlIndex == -1 && !m_IsComputerControlled)
-            {
-                ControlIndex = m_PlayerNumber;
-            }
-
+            if (ControlIndex == -1 && !m_IsComputerControlled) { ControlIndex = m_PlayerNumber; }
             var mobileControl = FindAnyObjectByType<MobileUIControl>();
-
-            // Mặc định, ControlIndex 1 được khớp với KeyboardLeft. Nhưng nếu có một thành phần điều khiển UI di động trong cảnh
-            // và nó đang hoạt động (vì vậy chúng ta đang ở trên thiết bị di động hoặc nó đã được kích hoạt bắt buộc để người dùng kiểm tra) thì chúng ta thay vào đó
-            // khớp ControlIndex 1 với Gamepad ảo trên màn hình.
             if (mobileControl != null && ControlIndex == 1)
             {
                 m_InputUser.SetNewInputUser(InputUser.PerformPairingWithDevice(mobileControl.Device));
@@ -135,177 +130,159 @@ namespace Tanks.Complete
             }
             else
             {
-                // ngược lại nếu không có điều khiển UI di động nào hoạt động, ControlIndex là scheme KeyboardLeft và ControlIndex 2 là KeyboardRight
                 m_InputUser.ActivateScheme(ControlIndex == 1 ? "KeyboardLeft" : "KeyboardRight");
             }
-
-            // Tên các trục dựa trên số người chơi.
-            m_MovementAxisName = "Vertical";
-            m_TurnAxisName = "Horizontal";
-
-            // Lấy input hành động từ thành phần TankInputUser sẽ đảm nhiệm việc sao chép chúng và
-            // liên kết chúng với thiết bị và sơ đồ điều khiển phù hợp
-            m_MoveAction = m_InputUser.ActionAsset.FindAction(m_MovementAxisName);
-            m_TurnAction = m_InputUser.ActionAsset.FindAction(m_TurnAxisName);
+            // Gán và kích hoạt các hành động input.
+            m_MoveAction = m_InputUser.ActionAsset.FindAction("Vertical");
+            m_TurnAction = m_InputUser.ActionAsset.FindAction("Horizontal");
             m_JumpAction = m_InputUser.ActionAsset.FindAction("Jump");
-            if (m_JumpAction != null)
-            {
-                m_JumpAction.Enable();
-            }
+            m_MoveAction?.Enable();
+            m_TurnAction?.Enable();
+            m_JumpAction?.Enable();
+            if (m_MovementAudio != null) m_OriginalPitch = m_MovementAudio.pitch;
 
-            // Các hành động cần được kích hoạt trước khi chúng có thể phản ứng với input
-            m_MoveAction.Enable();
-            m_TurnAction.Enable();
-
-            // Lưu cao độ gốc của nguồn âm thanh.
-            m_OriginalPitch = m_MovementAudio.pitch;
+            // Khởi tạo vị trí ban đầu để tính vận tốc.
+            m_LastPosition = transform.position;
         }
 
-
+        // Update được gọi mỗi frame. Dùng để đọc input và cập nhật các trạng thái logic không liên quan vật lý.
         private void Update()
         {
-            // obj do máy tính điều khiển sẽ được di chuyển bởi thành phần TankAI, vì vậy chỉ đọc input cho obj do người chơi điều khiển
             if (!m_IsComputerControlled)
             {
+                // Đọc input từ người chơi.
                 m_MovementInputValue = m_MoveAction.ReadValue<float>();
                 m_TurnInputValue = m_TurnAction.ReadValue<float>();
+                // Tạo vector hướng chuẩn hóa từ input.
+                m_InputDirection = new Vector3(m_TurnInputValue, 0f, m_MovementInputValue).normalized;
             }
 
-            EngineAudio();
+            // Gọi các hàm kiểm tra trạng thái và hành động.
             CheckGrounded();
             HandleJump();
-
-            // --- Animation ---
-            bool isMoving = Mathf.Abs(m_MovementInputValue) > 0.1f || Mathf.Abs(m_TurnInputValue) > 0.1f;
-            m_Animator.SetBool("isMoving", isMoving);
-            m_Animator.SetBool("isJumping", !m_IsGrounded);
+            EngineAudio();
+            UpdateAnimator();
         }
+
+        // FixedUpdate được gọi theo một chu kỳ thời gian cố định. Dùng để xử lý vật lý.
+        private void FixedUpdate()
+        {
+            // Tính toán vận tốc thực tế của Rigidbody.
+            float distanceMoved = Vector3.Distance(transform.position, m_LastPosition);
+            m_CurrentSpeed = distanceMoved / Time.fixedDeltaTime; // Vận tốc = Quãng đường / Thời gian
+            m_LastPosition = transform.position; // Cập nhật vị trí cuối cùng cho lần tính tiếp theo.
+
+            // Thực hiện di chuyển và xoay.
+            HandleMovementAndRotation();
+        }
+
+        // Hàm xử lý di chuyển và xoay kiểu nhân vật.
+        private void HandleMovementAndRotation()
+        {
+            // Kiểm tra an toàn: Dừng lại nếu quên gán camera.
+            if (m_PlayerCamera == null)
+            {
+                Debug.LogError("Player Camera chưa được gán trong Inspector của nhân vật: " + gameObject.name);
+                return;
+            }
+            // Chỉ thực hiện khi có input.
+            if (m_InputDirection.magnitude < 0.1f) return;
+
+            // Tính toán góc xoay mong muốn dựa trên hướng input của người chơi và góc quay của camera.
+            float targetAngle = Mathf.Atan2(m_InputDirection.x, m_InputDirection.z) * Mathf.Rad2Deg + m_PlayerCamera.transform.eulerAngles.y;
+
+            // Xoay nhân vật một cách mượt mà về góc mục tiêu bằng SmoothDampAngle.
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref m_TurnSmoothVelocity, m_RotationSmoothTime);
+            m_Rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+
+            // Di chuyển nhân vật về phía nó đang nhìn.
+            Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
+            m_Rigidbody.MovePosition(m_Rigidbody.position + moveDirection.normalized * m_Speed * Time.fixedDeltaTime);
+        }
+
+        // Hàm công khai để script khác (như PowerUpDetector) có thể bật/tắt trạng thái Haste.
+        public void SetHasteStatus(bool hasHaste)
+        {
+            m_IsHasted = hasHaste;
+        }
+
+        // Hàm tập trung xử lý việc gửi thông tin đến Animator.
+        private void UpdateAnimator()
+        {
+            if (m_Animator == null) return; // Kiểm tra an toàn.
+
+            // 1. CHỐNG NHẢY GIẢ: Chỉ coi là "đang ở trên không" (isJumping) nếu đã rời đất một khoảng thời gian đủ lâu.
+            bool isActuallyInAir = m_TimeSinceLeftGround > m_GroundCheckDelay;
+            m_Animator.SetBool("isJumping", isActuallyInAir);
+
+            // 2. KÍCH HOẠT HASTE DỰA TRÊN TỐC ĐỘ THỰC:
+            float hasteSpeedThreshold = m_Speed * 1.5f; // Ngưỡng để bật animation Haste.
+            // Điều kiện: phải đang di chuyển VÀ tốc độ thực tế phải vượt ngưỡng.
+            bool shouldShowHasteAnimation = m_CurrentSpeed > hasteSpeedThreshold && m_InputDirection.magnitude > 0.1f;
+            m_Animator.SetBool("isHaste", shouldShowHasteAnimation);
+
+            // 3. LOGIC DI CHUYỂN CƠ BẢN:
+            m_Animator.SetBool("isMoving", m_InputDirection.magnitude >= 0.1f);
+        }
+
+        // Hàm kiểm tra chạm đất được nâng cấp với bộ đếm thời gian.
         private void CheckGrounded()
         {
             if (m_GroundCheck != null)
             {
+                // Dùng Physics.CheckSphere để kiểm tra va chạm với mặt đất.
                 m_IsGrounded = Physics.CheckSphere(m_GroundCheck.position, m_GroundCheckRadius, m_GroundMask);
+
+                // Cập nhật bộ đếm thời gian.
+                if (m_IsGrounded)
+                {
+                    m_TimeSinceLeftGround = 0f; // Nếu chạm đất, reset bộ đếm.
+                }
+                else
+                {
+                    m_TimeSinceLeftGround += Time.deltaTime; // Nếu không chạm đất, bắt đầu đếm.
+                }
             }
         }
+
+        // Hàm xử lý hành động nhảy.
         private void HandleJump()
         {
+            // Chỉ nhảy khi có input và đang trên mặt đất.
             if (m_JumpAction != null && m_JumpAction.WasPressedThisFrame() && m_IsGrounded)
             {
                 m_Rigidbody.AddForce(Vector3.up * m_JumpForce, ForceMode.Impulse);
-                m_Animator.SetTrigger("isJumping");
             }
         }
 
-
-
-
+        // Hàm xử lý âm thanh động cơ.
         private void EngineAudio()
         {
-            // Nếu không có input (obj đứng yên)...
-            if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
+            if (m_MovementAudio == null) return;
+
+            // Kiểm tra nếu nhân vật đang di chuyển.
+            if (m_InputDirection.magnitude >= 0.1f)
             {
-                // ... và nếu nguồn âm thanh hiện đang phát clip lái xe...
-                if (m_MovementAudio.clip == m_EngineDriving)
-                {
-                    // ... thay đổi clip thành idling và phát nó.
-                    m_MovementAudio.clip = m_EngineIdling;
-                    m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
-                    m_MovementAudio.Play();
-                }
-            }
-            else
-            {
-                // Ngược lại nếu obj đang di chuyển và nếu clip idling hiện đang phát...
+                // Nếu âm thanh đang phát là tiếng đứng yên...
                 if (m_MovementAudio.clip == m_EngineIdling)
                 {
-                    // ... thay đổi clip thành lái xe và phát.
+                    // ...thì chuyển sang âm thanh di chuyển và phát.
                     m_MovementAudio.clip = m_EngineDriving;
                     m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
                     m_MovementAudio.Play();
                 }
             }
-        }
-
-
-        private void FixedUpdate()
-        {
-            // Nếu cái này đang sử dụng gamepad hoặc đã bật điều khiển trực tiếp, cái này sử dụng một phương pháp di chuyển khác: thay vì
-            // "lên" phía sau là di chuyển về phía trước cho obj, nó thay vào đó lấy hướng di chuyển của gamepad làm hướng mong muốn cho obj
-            // và sẽ tính toán tốc độ và vòng quay cần thiết để di chuyển obj theo hướng đó.
-            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
+            else // Nếu nhân vật đang đứng yên.
             {
-                var camForward = Camera.main.transform.forward;
-                camForward.y = 0;
-                camForward.Normalize();
-                var camRight = Vector3.Cross(Vector3.up, camForward);
-
-                // cái này tạo ra một vector dựa trên hướng nhìn của camera (ví dụ: nhấn lên có nghĩa là chúng ta muốn đi lên theo hướng của
-                // camera, không phải về phía trước theo hướng của obj)
-                m_RequestedDirection = (camForward * m_MovementInputValue + camRight * m_TurnInputValue);
+                // Nếu âm thanh đang phát là tiếng di chuyển...
+                if (m_MovementAudio.clip == m_EngineDriving)
+                {
+                    // ...thì chuyển sang âm thanh đứng yên và phát.
+                    m_MovementAudio.clip = m_EngineIdling;
+                    m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+                    m_MovementAudio.Play();
+                }
             }
-
-            // Điều chỉnh vị trí và hướng của rigidbody trong FixedUpdate.
-            Move();
-            Turn();
-        }
-
-
-        private void Move()
-        {
-            float speedInput = 0.0f;
-
-            // Trong chế độ điều khiển trực tiếp, tốc độ sẽ phụ thuộc vào khoảng cách chúng ta cách hướng mong muốn
-            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
-            {
-                speedInput = m_RequestedDirection.magnitude;
-                // nếu chúng ta điều khiển trực tiếp, tốc độ di chuyển dựa trên góc giữa hướng hiện tại và hướng mong muốn
-                // hướng. Nếu dưới 90, tốc độ tối đa, sau đó tốc độ giảm giữa 90 và 180
-                speedInput *= 1.0f - Mathf.Clamp01((Vector3.Angle(m_RequestedDirection, transform.forward) - 90) / 90.0f);
-            }
-            else
-            {
-                // trong chế độ điều khiển "obj" bình thường, giá trị tốc độ là mức độ chúng ta nhấn "lên/phía trước"
-                speedInput = m_MovementInputValue;
-            }
-
-            // Tạo một vector theo hướng obj đang đối mặt với độ lớn dựa trên input, tốc độ và thời gian giữa các khung hình.
-            Vector3 movement = transform.forward * speedInput * m_Speed * Time.deltaTime;
-
-            // Áp dụng chuyển động này vào vị trí của rigidbody.
-            m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
-        }
-
-        public void TriggerShootAnimation()
-        {
-            m_Animator.SetTrigger("Shoot");
-        }
-
-        public void TriggerDamageAnimation()
-        {
-            m_Animator.SetTrigger("takingDamage");
-        }
-
-        private void Turn()
-        {
-            Quaternion turnRotation;
-            // Nếu trong chế độ điều khiển trực tiếp...
-            if (m_InputUser.InputUser.controlScheme.Value.name == "Gamepad" || m_IsDirectControl)
-            {
-                // Tính toán vòng quay cần thiết để đạt được hướng mong muốn
-                float angleTowardTarget = Vector3.SignedAngle(m_RequestedDirection, transform.forward, transform.up);
-                var rotatingAngle = Mathf.Sign(angleTowardTarget) * Mathf.Min(Mathf.Abs(angleTowardTarget), m_TurnSpeed * Time.deltaTime);
-                turnRotation = Quaternion.AngleAxis(-rotatingAngle, Vector3.up);
-            }
-            else
-            {
-                float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
-
-                // Biến cái này thành một vòng quay theo trục y.
-                turnRotation = Quaternion.Euler(0f, turn, 0f);
-            }
-
-            // Áp dụng vòng quay này vào vòng quay của rigidbody.
-            m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
         }
     }
 }
