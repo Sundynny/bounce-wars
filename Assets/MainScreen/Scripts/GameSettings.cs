@@ -10,4 +10,6 @@ public static class GameSettings
     public static int Player2Character = -1;
 
     public static int CurrentRound = 0;
+    public static int player1Wins = 0;
+    public static int player2Wins = 0;
 }
