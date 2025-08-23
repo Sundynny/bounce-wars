@@ -3,92 +3,64 @@
   "WorkspaceRootPath": "D:\\Unity\\Unity Project\\bounce-wars\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\scripts\\tank\\tankshooting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\scripts\\tank\\tankshooting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\scripts\\tank\\tankshooting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\scripts\\tank\\tankmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\scripts\\tank\\tankmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\orbcollector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\orbcollector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\scripts\\tank\\powerupdetector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\scripts\\tank\\powerupdetector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\point_controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\point_controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\scripts\\tank\\tankhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\scripts\\tank\\tankhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{752142F5-9A89-FF46-7F43-8D5B03B7ACBB}|Assembly-CSharp-Editor.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\scripts\\editor\\movesceneviewcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{752142F5-9A89-FF46-7F43-8D5B03B7ACBB}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\_tanks\\scripts\\editor\\movesceneviewcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\scripts\\powerup\\powerupfx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\powerup\\powerupfx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\powerup\\powerupfx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\scripts\\tank\\tankinputuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\tank\\tankinputuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\prefabs\\explosives\\sc_exp\\firezone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\prefabs\\explosives\\sc_exp\\firezone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\prefabs\\explosives\\sc_exp\\fireparticle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\prefabs\\explosives\\sc_exp\\fireparticle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{752142F5-9A89-FF46-7F43-8D5B03B7ACBB}|Assembly-CSharp-Editor.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\editor\\movesceneviewcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{752142F5-9A89-FF46-7F43-8D5B03B7ACBB}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\_tanks\\scripts\\editor\\movesceneviewcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\powerorbcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\powerorbcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\elementalorb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\elementalorb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\map\\scripts\\playercontrollerr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\map\\scripts\\playercontrollerr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\tankflagcarrier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\tankflagcarrier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\scripts\\managers\\tankmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\managers\\tankmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\controlpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\controlpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\gamesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\gamesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\gamesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\gamesettingsui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\gamesettingsui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\gamesettingsui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\map\\scripts\\camerafolloww.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\map\\scripts\\camerafolloww.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\tank\\tankai_netcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\tank\\tankai_netcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\tank\\powerupdetector_netcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\tank\\powerupdetector_netcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\scripts\\tank\\tankai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\scripts\\tank\\tankai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -98,8 +70,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 22,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrbCollector.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\OrbCollector.cs",
+              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\OrbCollector.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\OrbCollector.cs",
+              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Sc\\OrbCollector.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAowIoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-23T07:58:28.949Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
@@ -114,124 +99,45 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MoveSceneViewCamera.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "TankShooting.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
+              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
+              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwCAAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T08:28:40.801Z",
+              "WhenOpened": "2025-08-23T07:35:50.781Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "PowerUpFX.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "FireZone.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireZone.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireZone.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireZone.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireZone.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAowGIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T08:28:34.247Z",
+              "WhenOpened": "2025-08-23T01:16:10.543Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ShellExplosion.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAYwD4AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "FireParticle.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireParticle.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireParticle.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireParticle.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireParticle.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T08:27:45.978Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "TankInputUser.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankInputUser.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Tank\\TankInputUser.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankInputUser.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Tank\\TankInputUser.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T05:09:34.563Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "TankFlagCarrier.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\TankFlagCarrier.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\TankFlagCarrier.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\TankFlagCarrier.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Sc\\TankFlagCarrier.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T05:08:47.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TankManager.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Managers\\TankManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Managers\\TankManager.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Managers\\TankManager.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Managers\\TankManager.cs",
-              "ViewState": "AgIAAIYAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T05:08:27.669Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ControlPanel.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\ControlPanel.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\ControlPanel.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\ControlPanel.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\ControlPanel.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T05:07:11.123Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-23T01:11:46.56Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "GameSettings.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettings.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\GameSettings.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettings.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\GameSettings.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T05:07:08.279Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "GameSettingsUI.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T05:06:33.627Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
               "Title": "ApiAccessibleState.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs",
@@ -244,56 +150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "PlayerControllerr.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\PlayerControllerr.cs",
-              "RelativeDocumentMoniker": "Assets\\Map\\Scripts\\PlayerControllerr.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\PlayerControllerr.cs",
-              "RelativeToolTip": "Assets\\Map\\Scripts\\PlayerControllerr.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwDkAAABiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T00:12:51.694Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "TankAI_NETCODE.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAAwCwAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T23:54:03.686Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "PowerUpDetector_NETCODE.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\PowerUpDetector_NETCODE.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Tank\\PowerUpDetector_NETCODE.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\PowerUpDetector_NETCODE.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Tank\\PowerUpDetector_NETCODE.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwDAAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T23:52:32.942Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "TankAI.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankAI.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankAI.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankAI.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankAI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T23:51:32.364Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 13,
               "Title": "Debug.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs",
@@ -306,93 +163,112 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "CameraFolloww.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\CameraFolloww.cs",
-              "RelativeDocumentMoniker": "Assets\\Map\\Scripts\\CameraFolloww.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\CameraFolloww.cs",
-              "RelativeToolTip": "Assets\\Map\\Scripts\\CameraFolloww.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "MoveSceneViewCamera.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T00:29:29.68Z"
+              "WhenOpened": "2025-08-21T08:28:40.801Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TankHealth.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankHealth.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankHealth.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankHealth.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankHealth.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAYwKAAAAABAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "PowerOrbController.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\PowerOrbController.cs",
+              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\PowerOrbController.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\PowerOrbController.cs",
+              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Sc\\PowerOrbController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwK8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T19:08:35.458Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-22T23:15:48.672Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ElementalOrb.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\ElementalOrb.cs",
+              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\ElementalOrb.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\ElementalOrb.cs",
+              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Sc\\ElementalOrb.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-22T23:13:48.603Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "PowerUpDetector.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\PowerUpDetector.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\PowerUpDetector.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\PowerUpDetector.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\PowerUpDetector.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAAACkAAAA9AAAAAAAAAA==",
+              "Title": "PowerUpFX.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T19:08:34.593Z",
+              "WhenOpened": "2025-08-21T08:28:34.247Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TankMovement.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankMovement.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankMovement.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankMovement.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankMovement.cs",
-              "ViewState": "AgIAAPoAAAAAAAAAAAAAwB8BAAABAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "ShellExplosion.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T19:08:32.953Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-21T08:27:45.978Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TankShooting.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAAAEUBAAABAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "GameSettings.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettings.cs",
+              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\GameSettings.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettings.cs",
+              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\GameSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T19:08:31.858Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-21T05:07:08.279Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Point_Controller.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\Point_Controller.cs",
-              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\Point_Controller.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\Point_Controller.cs",
-              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Sc\\Point_Controller.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 11,
+              "Title": "GameSettingsUI.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
+              "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
+              "RelativeToolTip": "Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T17:20:15.233Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-21T05:06:33.627Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "PlayerControllerr.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\PlayerControllerr.cs",
+              "RelativeDocumentMoniker": "Assets\\Map\\Scripts\\PlayerControllerr.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\PlayerControllerr.cs",
+              "RelativeToolTip": "Assets\\Map\\Scripts\\PlayerControllerr.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwDkAAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T00:12:51.694Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 12,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Managers\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Managers\\GameManager.cs",
-              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Managers\\GameManager.cs",
-              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Managers\\GameManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0BAAApAAAAAAAAAA==",
+              "Title": "TankAI_NETCODE.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAwCwAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-05T11:27:56.349Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-20T23:54:03.686Z"
             }
           ]
         }

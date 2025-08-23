@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Tanks\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\FireZone.cs" />
     <Compile Include="Assets\MainScreen\Scripts\quaynhanvat.cs" />
     <Compile Include="Assets\Fonts\Script\scriptTexttest.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\Point_Controller_NETCODE.cs" />
@@ -84,8 +85,10 @@
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankShooting_NETCODE.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankAI_NETCODE.cs" />
     <Compile Include="Assets\Map\Scripts\CharacterSpawner.cs" />
-    <Compile Include="Assets\MainScreen\Scripts\Sc\TankFlagCarrier.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\login\LoginManager.cs" />
+    <Compile Include="Assets\Vefects\Trails VFX HDRP\Scripts\Demo_FreeCam.cs" />
+    <Compile Include="Assets\Vefects\Trails VFX HDRP\Scripts\Demo_TurningAround.cs" />
+    <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\FireParticle.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUp.cs" />
     <Compile Include="Assets\Map\resources\Travis Game Assets\Hit Impact Effects\Demo Scene\Scripts\HitImpactEffectsPreview.cs" />
     <Compile Include="Assets\MainScreen\Scripts\test script\PlayerController3D.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Assets\MainScreen\Scripts\ControlPanel.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\ClientNetworkTransform.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MessageTextReference.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\Sc\OrbCollector.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\AuthenticationManager.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\PowerUpDetector.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpHUD.cs" />
@@ -112,9 +116,11 @@
     <Compile Include="Assets\MainScreen\Scripts\test script\CameraFollow.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\RelayManager.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\TankMovement.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\Sc\PowerOrbController.cs" />
     <Compile Include="Assets\MainScreen\Scripts\GameSettings.cs" />
     <Compile Include="Assets\Map\Scripts\InGameManager.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\TankHealth.cs" />
+    <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\WindEffect.cs" />
     <Compile Include="Assets\Map\Scripts\PlayerControllerr.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Map\Scripts\CameraFolloww.cs" />
@@ -125,22 +131,30 @@
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\ElementalOrb_NETCODE.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\GameUIHandler.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\TankFlagCarrier_NETCODE.cs" />
+    <Compile Include="Assets\NamuFX\_CommonAssets\Scripts\VIewer.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\TankAI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\Hun0FX\Shader\SH_HunFX_common.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Vefects\Trails VFX HDRP\_ Extra\Shaders\SH_Vefects_Extra_Grid_01_HDRP.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\Vefects\Trails VFX HDRP\VFX\Shaders\SH_Vefects_VFX_HDRP_Trail_Distortion.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Bowlby_One\FontLicense.txt" />
+    <None Include="Assets\Vefects\Trails VFX HDRP\_ Extra\Shaders\SH_Vefects_Extra_Billboard_01_HDRP.shader" />
     <None Include="Assets\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\Map\resources\InfinityPBR - Magic Pig Games\Projectile Factory\Asset Store Integrations\INTEGRATIONS READ ME.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Ubuntu\UFL.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\Hun0FX\Shader\SH_HunFX_simple.shader" />
+    <None Include="Assets\Vefects\Trails VFX HDRP\Demo\Resources\Environment\Shaders\SH_Vefects_Grid_01_HDRP.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\Vefects\Trails VFX HDRP\Demo\Resources\Character\Shaders\SH_Vefects_HDRP_VFX_Character_Showoff.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Lora\OFL.txt" />
     <None Include="Assets\Map\resources\Travis Game Assets\Hit Impact Effects\Readme.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -161,6 +175,7 @@
     <None Include="Assets\_Tanks\Art\Fonts\Big_Shoulders_Stencil\README.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\Exo_2\README.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Vefects\Trails VFX HDRP\VFX\Shaders\SH_Vefects_VFX_HDRP_Trail_New.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\Lora\README.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\Big_Shoulders_Stencil\OFL.txt" />
