@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class CaptureManager : MonoBehaviour
 {
     public List<CapturePoint> capturePoints; // tất cả cờ trên map
     public InGameManager gameManager;        // tham chiếu InGameManager
+    public Text logStatus;
 
     // Map số cờ sở hữu -> điểm/giây
     private readonly Dictionary<int, int> flagToScore = new Dictionary<int, int>
@@ -63,7 +65,6 @@ public class CaptureManager : MonoBehaviour
 
     private void HandleCaptured(string pointId, Team newOwner)
     {
-        // Khi một cờ vừa được chiếm xong, có thể phát âm thanh hoặc hiệu ứng
-        Debug.Log($"Point {pointId} captured by {newOwner}");
+        logStatus.text = $"Point {pointId} captured by {newOwner}";
     }
 }
