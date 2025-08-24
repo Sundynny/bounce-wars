@@ -46,6 +46,8 @@ public class InGameManager : MonoBehaviour
     public Image[] rightIconSlots;
     public Text objective_txt;
 
+    public Text whoiswinner;
+
     [Header("Start Round UI")]
     public GameObject startRoundPanel;
     public Text roundCountText;
@@ -97,7 +99,9 @@ public class InGameManager : MonoBehaviour
 
             // Cập nhật số Round
             if (roundCountText != null)
+            {
                 roundCountText.text = "" + GameSettings.CurrentRound;
+            }
 
             yield return new WaitForSecondsRealtime(startRoundDuration); // dùng Realtime để không bị ảnh hưởng Time.timeScale
 
@@ -172,14 +176,32 @@ public class InGameManager : MonoBehaviour
             player2ResultIcon.sprite = skullIcon;
         }
 
-        if (GameSettings.CurrentRound >= GameSettings.MatchCount)
+        int requiredWins = (GameSettings.MatchCount / 2) + 1;
+
+        if (GameSettings.player1Wins >= requiredWins || GameSettings.player2Wins >= requiredWins)
         {
             nextRoundButton.gameObject.SetActive(false);
+            // Có thể hiển thị thông báo thắng chung cuộc
+            if (GameSettings.player1Wins >= requiredWins)
+            {
+                whoiswinner.text = "You are winner. PLAYER 1!";
+            }
+            else
+            {
+                whoiswinner.text = "You are winner. PLAYER 2!";
+            }
         }
         else
         {
-            nextRoundButton.gameObject.SetActive(true);
-
+            // Nếu chưa đủ, kiểm tra còn round hay không
+            if (GameSettings.CurrentRound >= GameSettings.MatchCount)
+            {
+                nextRoundButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                nextRoundButton.gameObject.SetActive(true);
+            }
         }
     }
 

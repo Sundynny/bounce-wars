@@ -275,7 +275,7 @@
                 {
                     "name": "",
                     "id": "11c0b2e1-62b6-4d2c-98fa-c84b74c75f40",
-                    "path": "<Keyboard>/rightCtrl",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardRight",

@@ -24,6 +24,9 @@ public class GameSettingsUI : MonoBehaviour
     public Color pickPlayerSelectedColor = Color.cyan;
     public Color disabledColor = Color.gray;
 
+    public CharacterData[] characterDatas;
+    public CharacterUI characterUI;
+
     private int currentPickingPlayer = 1;
 
     void Start()
@@ -137,6 +140,7 @@ public class GameSettingsUI : MonoBehaviour
         {
             GameSettings.Player2Character = index;
         }
+        characterUI.ShowCharacterInfo(characterDatas[index]);
         UpdateCharacterLabels();
     }
 

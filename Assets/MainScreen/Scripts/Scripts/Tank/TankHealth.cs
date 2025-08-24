@@ -5,6 +5,13 @@ namespace Tanks.Complete
 {
     public class TankHealth : MonoBehaviour
     {
+        [Header("Respawn Settings")]
+        public float respawnTime = 5f;
+        public GameObject respawnPanel; // UI đếm ngược
+        public Text respawnText; // Text đếm ngược
+        public Transform respawnPoint; // Vị trí hồi sinh
+
+
         // --- THÊM MỚI: Biến để tham chiếu đến Animator ---
         [Header("Animation Settings")]
         [Tooltip("Kéo Animator của nhân vật vào đây.")]
@@ -28,6 +35,7 @@ namespace Tanks.Complete
         private bool m_Dead;
         private float m_ShieldValue;
         private bool m_IsInvincible;
+        public Text logStatus;
 
         private void Awake()
         {
@@ -128,21 +136,20 @@ namespace Tanks.Complete
             m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
         }
 
-        private void OnDeath()
+        public void OnDeath()
         {
+            logStatus.text = $"{gameObject.name} has been defeated";
             m_Dead = true;
 
             if (m_Animator != null)
-            {
                 m_Animator.SetBool("isDead", true);
-            }
 
             m_ExplosionParticles.transform.position = transform.position;
             m_ExplosionParticles.gameObject.SetActive(true);
             m_ExplosionParticles.Play();
             m_ExplosionAudio.Play();
 
-            Invoke(nameof(DeactivateGameObject), m_DeathDisableDelay);
+            StartCoroutine(HandleRespawn());
         }
 
         private void DeactivateGameObject()
@@ -156,6 +163,53 @@ namespace Tanks.Complete
             {
                 m_Animator.SetTrigger("Celebrate");
             }
+        }
+
+        private System.Collections.IEnumerator HandleRespawn()
+        {
+            // Không tắt toàn bộ gameObject ở đây, chỉ vô hiệu hóa điều khiển
+            var renderers = GetComponentsInChildren<Renderer>();
+            foreach (var renderer in renderers)
+                renderer.enabled = false;
+
+            var colliders = GetComponentsInChildren<Collider>();
+            foreach (var collider in colliders)
+                collider.enabled = false;
+
+            if (respawnPanel != null)
+                respawnPanel.SetActive(true);
+
+            float timeLeft = respawnTime;
+
+            while (timeLeft > 0)
+            {
+                if (respawnText != null)
+                    respawnText.text = Mathf.Ceil(timeLeft).ToString();
+
+                yield return new WaitForSeconds(1f);
+                timeLeft--;
+            }
+
+            if (respawnPanel != null)
+                respawnPanel.SetActive(false);
+
+            // Reset máu & vị trí
+            m_CurrentHealth = m_StartingHealth;
+            m_Dead = false;
+
+            transform.position = respawnPoint.position;
+
+            // Bật lại hiển thị
+            foreach (var renderer in renderers)
+                renderer.enabled = true;
+
+            foreach (var collider in colliders)
+                collider.enabled = true;
+
+            if (m_Animator != null)
+                m_Animator.SetBool("isDead", false);
+
+            SetHealthUI();
         }
     }
 }
