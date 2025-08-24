@@ -35,6 +35,7 @@ namespace Tanks.Complete
         private bool m_Dead;
         private float m_ShieldValue;
         private bool m_IsInvincible;
+        public Text logStatus;
 
         private void Awake()
         {
@@ -137,6 +138,7 @@ namespace Tanks.Complete
 
         public void OnDeath()
         {
+            logStatus.text = $"{gameObject.name} has been defeated";
             m_Dead = true;
 
             if (m_Animator != null)
