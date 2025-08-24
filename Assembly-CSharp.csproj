@@ -42,7 +42,7 @@
     <UnityVersion>6000.2.0b8</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\admin\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\admin\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="F:\Program Files\6000.2.0b8\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="F:\Program Files\6000.2.0b8\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="F:\Program Files\6000.2.0b8\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -72,6 +72,8 @@
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankShooting_NETCODE.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankAI_NETCODE.cs" />
     <Compile Include="Assets\Map\Scripts\CharacterSpawner.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\CharacterData.cs" />
+    <Compile Include="Assets\MainScreen\Scripts\CharacterUI.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\login\LoginManager.cs" />
     <Compile Include="Assets\Vefects\Trails VFX HDRP\Scripts\Demo_FreeCam.cs" />
     <Compile Include="Assets\Vefects\Trails VFX HDRP\Scripts\Demo_TurningAround.cs" />
@@ -79,11 +81,13 @@
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUp.cs" />
     <Compile Include="Assets\Map\resources\Travis Game Assets\Hit Impact Effects\Demo Scene\Scripts\HitImpactEffectsPreview.cs" />
     <Compile Include="Assets\MainScreen\Scripts\test script\PlayerController3D.cs" />
+    <Compile Include="Assets\Map\Scripts\CapturePoint.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Camera\CameraControl.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\LobbyListItemUI.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MobileControl\MobileUIControl.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Sc\ElementalOrb.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Managers\TankManager.cs" />
+    <Compile Include="Assets\Map\Scripts\Team.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankInputUser.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Shell\ShellExplosion.cs" />
     <Compile Include="Assets\MainScreen\Scripts\ControlPanel.cs" />
@@ -91,11 +95,14 @@
     <Compile Include="Assets\_Tanks\Scripts\UI\MessageTextReference.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Sc\OrbCollector.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\AuthenticationManager.cs" />
+    <Compile Include="Assets\Map\Scripts\Flag\FlagArrow.cs" />
+    <Compile Include="Assets\Map\Scripts\ScoringSystem.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\PowerUpDetector.cs" />
     <Compile Include="Assets\_Tanks\Scripts\PowerUp\PowerUpHUD.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\TankShooting.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\GameManager_NETCODE.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankHealth_NETCODE.cs" />
+    <Compile Include="Assets\Map\Scripts\CaptureManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\StartMenuSlot.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\AltarController_NETS.cs" />
     <Compile Include="Assets\MainScreen\Scripts\GameSettingsUI.cs" />
@@ -103,13 +110,16 @@
     <Compile Include="Assets\MainScreen\Scripts\test script\CameraFollow.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\RelayManager.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\TankMovement.cs" />
+    <Compile Include="Assets\Map\Scripts\DeadZone.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Sc\PowerOrbController.cs" />
     <Compile Include="Assets\MainScreen\Scripts\GameSettings.cs" />
     <Compile Include="Assets\Map\Scripts\InGameManager.cs" />
+    <Compile Include="Assets\Map\resources\_Heathen Engineering\Samples\UX Examples\Flat Icons [Free]\ToggleSetAnimatorBoolean.cs" />
     <Compile Include="Assets\MainScreen\Scripts\Scripts\Tank\TankHealth.cs" />
     <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\WindEffect.cs" />
     <Compile Include="Assets\Map\Scripts\PlayerControllerr.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\PauseMenu.cs" />
+    <Compile Include="Assets\Map\Scripts\TeamMember.cs" />
     <Compile Include="Assets\Map\Scripts\CameraFolloww.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\MobileControl\VirtualInputs\UIVirtualJoystick.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\PowerUpDetector_NETCODE.cs" />
@@ -157,6 +167,7 @@
     <None Include="Assets\_Tanks\Art\Fonts\IBM_Plex_Mono\OFL.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\_Tanks\Art\Fonts\Inter\README.txt" />
+    <None Include="Assets\Map\resources\_Heathen Engineering\Documentation\UX\Flat Icons [Free]\Read Me.txt" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\_Tanks\Settings\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\_Tanks\Art\Fonts\Big_Shoulders_Stencil\README.txt" />
