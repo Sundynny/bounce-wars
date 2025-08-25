@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\Unity\\Unity Project\\bounce-wars\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\earthwallspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\earthwallspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\prefabs\\explosives\\sc_exp\\orbspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\prefabs\\explosives\\sc_exp\\orbspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|d:\\unity\\unity project\\bounce-wars\\assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\scripts\\shell\\shellexplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\prefabs\\explosives\\sc_exp\\watervortex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\_tanks\\prefabs\\explosives\\sc_exp\\watervortex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\mainscreen\\scripts\\sc\\earthwallspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|solutionrelative:assets\\mainscreen\\scripts\\sc\\earthwallspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4ED8319A-C7E7-901D-9B3E-D7BA824DCA29}|Assembly-CSharp.csproj|D:\\Unity\\Unity Project\\bounce-wars\\assets\\_tanks\\prefabs\\explosives\\sc_exp\\windeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -115,6 +123,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "OrbSpawner.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\OrbSpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\OrbSpawner.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\OrbSpawner.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\OrbSpawner.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwGIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T08:21:25.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WaterVortex.cs",
+              "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\WaterVortex.cs",
+              "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\WaterVortex.cs",
+              "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\WaterVortex.cs",
+              "RelativeToolTip": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\WaterVortex.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T07:31:53.617Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "EarthWallSpawner.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\EarthWallSpawner.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\EarthWallSpawner.cs",
@@ -122,12 +155,11 @@
               "RelativeToolTip": "Assets\\MainScreen\\Scripts\\Sc\\EarthWallSpawner.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-25T07:06:20.752Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-25T07:06:20.752Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "ApiAccessibleState.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs",
@@ -135,12 +167,11 @@
               "RelativeToolTip": "Library\\PackageCache\\com.unity.ai.toolkit@d2b6f4542cce\\Modules\\Accounts\\Services\\States\\ApiAccessibleState.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAYwDQAAACcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T04:10:28.666Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-21T04:10:28.666Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "Debug.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs",
@@ -148,12 +179,11 @@
               "RelativeToolTip": "Library\\PackageCache\\com.unity.entities@e581b903be8e\\Unity.Entities\\Stubs\\Unity\\Debug.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T00:45:47.177Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-20T00:45:47.177Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "TankShooting.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Scripts\\Tank\\TankShooting.cs",
@@ -165,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "AltarController.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\AltarController.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\AltarController.cs",
@@ -177,7 +207,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "AbilityUI.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\AbilityUI.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\AbilityUI.cs",
@@ -189,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "CharacterSpawner.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\CharacterSpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Map\\Scripts\\CharacterSpawner.cs",
@@ -201,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "MoveSceneViewCamera.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Editor\\MoveSceneViewCamera.cs",
@@ -213,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "AbilityManager.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\AbilityManager.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\AbilityManager.cs",
@@ -225,7 +255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "OrbCollector.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\OrbCollector.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\OrbCollector.cs",
@@ -237,7 +267,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "TankInputUser.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankInputUser.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Tank\\TankInputUser.cs",
@@ -249,7 +279,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "WindEffect.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\WindEffect.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\WindEffect.cs",
@@ -261,7 +291,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "FireZone.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireZone.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireZone.cs",
@@ -273,7 +303,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "FireParticle.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireParticle.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Prefabs\\Explosives\\SC_Exp\\FireParticle.cs",
@@ -285,7 +315,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "PowerOrbController.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\PowerOrbController.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\PowerOrbController.cs",
@@ -297,7 +327,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "ElementalOrb.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\Sc\\ElementalOrb.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\Sc\\ElementalOrb.cs",
@@ -309,7 +339,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "PowerUpFX.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\PowerUp\\PowerUpFX.cs",
@@ -327,13 +357,14 @@
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
               "ToolTip": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
               "RelativeToolTip": "Assets\\_Tanks\\Scripts\\Shell\\ShellExplosion.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAwwAQAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAwwGoAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T08:27:45.978Z"
+              "WhenOpened": "2025-08-21T08:27:45.978Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "GameSettings.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettings.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\GameSettings.cs",
@@ -345,7 +376,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "GameSettingsUI.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
               "RelativeDocumentMoniker": "Assets\\MainScreen\\Scripts\\GameSettingsUI.cs",
@@ -357,7 +388,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "PlayerControllerr.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\Map\\Scripts\\PlayerControllerr.cs",
               "RelativeDocumentMoniker": "Assets\\Map\\Scripts\\PlayerControllerr.cs",
@@ -369,7 +400,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "TankAI_NETCODE.cs",
               "DocumentMoniker": "D:\\Unity\\Unity Project\\bounce-wars\\Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",
               "RelativeDocumentMoniker": "Assets\\_Tanks\\Scripts\\Tank\\TankAI_NETCODE.cs",

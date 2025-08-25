@@ -121,6 +121,7 @@
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\GameManager_NETCODE.cs" />
     <Compile Include="Assets\_Tanks\Scripts\Tank\TankHealth_NETCODE.cs" />
     <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\WaterVortex.cs" />
+    <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\DrawSpawnArea.cs" />
     <Compile Include="Assets\Map\Scripts\CaptureManager.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\StartMenuSlot.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\AltarController_NETS.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Assets\MainScreen\Scripts\Sc\Point_Controller.cs" />
     <Compile Include="Assets\MainScreen\Scripts\MusicManager.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\ElementalOrb_NETCODE.cs" />
+    <Compile Include="Assets\_Tanks\Prefabs\Explosives\SC_Exp\OrbSpawner.cs" />
     <Compile Include="Assets\_Tanks\Scripts\UI\GameUIHandler.cs" />
     <Compile Include="Assets\_Prefabs_bounce_wars\SC\TankFlagCarrier_NETCODE.cs" />
     <Compile Include="Assets\NamuFX\_CommonAssets\Scripts\VIewer.cs" />
