@@ -3,7 +3,7 @@ using UnityEngine;
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform target;               // Nhân vật
-    public Vector3 offset = new Vector3(0, 3, -6); // Độ cao và khoảng cách phía sau
+    public Vector3 offset = new Vector3(0, 6, -6); // Độ cao và khoảng cách phía sau
     public float smoothSpeed = 10f;        // Độ mượt khi di chuyển camera
     public float rotationSmooth = 5f;      // Độ mượt khi xoay camera
 

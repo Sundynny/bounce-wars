@@ -1,69 +1,86 @@
 using UnityEngine;
+using Tanks.Complete;
+using UnityEngine.UI;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    [Header("Nhân vật trong map")]
-    public GameObject[] charactersInMap;
+    [Header("Prefabs nhân vật")]
+    public GameObject[] characterPrefabs;
 
-    [Header("Camera theo dõi")]
-    public ThirdPersonCamera cameraFollow1;
-    public ThirdPersonCamera cameraFollow2;
+    [Header("Điểm spawn")]
+    public Transform spawnPointPlayer1;
+    public Transform spawnPointPlayer2;
 
+    [Header("Camera")]
+    public ThirdPersonCamera cameraP1;
+    public ThirdPersonCamera cameraP2;
+
+    [Header("UI Panel")]
+    public GameObject abilityPanelP1;
+    public GameObject abilityPanelP2;
+
+    [Header("Player Cameras")]
     public Camera player1Camera;
     public Camera player2Camera;
 
     void Start()
     {
-        // Tắt tất cả nhân vật trước
-        foreach (var character in charactersInMap)
+        SpawnPlayers();
+    }
+
+    void SpawnPlayers()
+    {
+        int charIndex1 = GameSettings.Player1Character;
+        int charIndex2 = GameSettings.Player2Character;
+
+        if (charIndex1 < 0 || charIndex1 >= characterPrefabs.Length ||
+            charIndex2 < 0 || charIndex2 >= characterPrefabs.Length)
         {
-            if (character != null) character.SetActive(false);
+            Debug.LogError("Chưa chọn nhân vật hợp lệ!");
+            return;
         }
 
-        GameObject player1 = null;
-        GameObject player2 = null;
+        // Spawn Player 1
+        GameObject player1 = Instantiate(characterPrefabs[charIndex1], spawnPointPlayer1.position, spawnPointPlayer1.rotation);
+        player1.name = "Player1";
+        AssignPlayerData(player1, 1, Team.Team1, abilityPanelP1, player1Camera);
+        cameraP1.target = player1.transform;
 
-        // Chọn nhân vật cho Player 1
-        if (GameSettings.PlayerCount >= 1 && GameSettings.Player1Character >= 0)
+        // Spawn Player 2
+        GameObject player2 = Instantiate(characterPrefabs[charIndex2], spawnPointPlayer2.position, spawnPointPlayer2.rotation);
+        player2.name = "Player2";
+        AssignPlayerData(player2, 2, Team.Team2, abilityPanelP2, player2Camera);
+        cameraP2.target = player2.transform;
+    }
+
+    void AssignPlayerData(GameObject player, int playerNumber, Team team, GameObject abilityPanel, Camera assignedCamera)
+    {
+        // TankMovement: set PlayerNumber & Camera
+        TankMovement move = player.GetComponent<TankMovement>();
+        if (move != null)
         {
-            int index = GameSettings.Player1Character;
-            player1 = charactersInMap[index];
-            if (player1 != null)
-            {
-                player1.SetActive(true);
+            move.m_PlayerNumber = playerNumber;
 
-                var move = player1.GetComponent<Tanks.Complete.TankMovement>();
-                if (move != null)
-                {
-                    move.ControlIndex = 1;
-                    move.m_PlayerCamera = player1Camera;
-                }
+            // Gán PlayerCamera nếu có
+            if (assignedCamera != null)
+            {
+                move.m_PlayerCamera = assignedCamera;
             }
         }
 
-        // Chọn nhân vật cho Player 2
-        if (GameSettings.PlayerCount >= 2 && GameSettings.Player2Character >= 0)
+        // Gán Team
+        TeamMember teamMember = player.GetComponent<TeamMember>();
+        if (teamMember != null)
         {
-            int index = GameSettings.Player2Character;
-            player2 = charactersInMap[index];
-            if (player2 != null)
-            {
-                player2.SetActive(true);
-
-                var move = player2.GetComponent<Tanks.Complete.TankMovement>();
-                if (move != null)
-                {
-                    move.ControlIndex = 2;
-                    move.m_PlayerCamera = player2Camera;
-                }
-            }
+            teamMember.Team = team;
         }
 
-        // Gán target cho camera follow
-        if (cameraFollow1 != null && player1 != null)
-            cameraFollow1.target = player1.transform;
-
-        if (cameraFollow2 != null && player2 != null)
-            cameraFollow2.target = player2.transform;
+        // Gán Ability UI
+        AbilityManager ability = player.GetComponent<AbilityManager>();
+        if (ability != null)
+        {
+            ability.m_OrbCollector = player.GetComponent<OrbCollector>();
+            ability.m_AbilityUI = abilityPanel.GetComponent<AbilityUI>();
+        }
     }
 }

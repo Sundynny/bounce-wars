@@ -68,7 +68,6 @@ public class InGameManager : MonoBehaviour
         if (objective_txt != null)
             objective_txt.text = "" + iconCount;
 
-        // Ẩn tất cả icon trước
         foreach (var icon in leftIconSlots) icon.gameObject.SetActive(false);
         foreach (var icon in rightIconSlots) icon.gameObject.SetActive(false);
 
@@ -103,7 +102,7 @@ public class InGameManager : MonoBehaviour
                 roundCountText.text = "" + GameSettings.CurrentRound;
             }
 
-            yield return new WaitForSecondsRealtime(startRoundDuration); // dùng Realtime để không bị ảnh hưởng Time.timeScale
+            yield return new WaitForSecondsRealtime(startRoundDuration);
 
             startRoundPanel.SetActive(false);
         }
@@ -146,7 +145,6 @@ public class InGameManager : MonoBehaviour
         inGameUIPanel.SetActive(false);
         Time.timeScale = 0f; 
 
-        // 🟢 Hiển thị kết quả
         int minutes = Mathf.FloorToInt(currentTime / 60);
         int seconds = Mathf.FloorToInt(currentTime % 60);
         if (timeResultText != null)
@@ -181,7 +179,6 @@ public class InGameManager : MonoBehaviour
         if (GameSettings.player1Wins >= requiredWins || GameSettings.player2Wins >= requiredWins)
         {
             nextRoundButton.gameObject.SetActive(false);
-            // Có thể hiển thị thông báo thắng chung cuộc
             if (GameSettings.player1Wins >= requiredWins)
             {
                 whoiswinner.text = "You are winner. PLAYER 1!";
@@ -193,7 +190,6 @@ public class InGameManager : MonoBehaviour
         }
         else
         {
-            // Nếu chưa đủ, kiểm tra còn round hay không
             if (GameSettings.CurrentRound >= GameSettings.MatchCount)
             {
                 nextRoundButton.gameObject.SetActive(false);
