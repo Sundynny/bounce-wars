@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using System.Collections.Generic; // Cần dùng để có List
+using System.Collections.Generic;
 
 namespace Tanks.Complete
 {
@@ -27,8 +27,8 @@ namespace Tanks.Complete
         public Rigidbody m_EarthShell;
 
         [Header("Component References")]
-        [Tooltip("Tham chiếu đến script OrbCollector trên cùng nhân vật.")]
-        public OrbCollector m_OrbCollector;
+        [Tooltip("Tham chiếu đến script AbilityManager trên cùng nhân vật.")]
+        public AbilityManager m_AbilityManager;
 
         // --- CÁC BIẾN CŨ GIỮ NGUYÊN ---
         private LineRenderer m_TrajectoryLine;
@@ -63,7 +63,7 @@ namespace Tanks.Complete
         private float m_ShotCooldownTimer;
         private float m_ChargeDuration = 0f;
 
-        // Biến HasSpecialShell cũ không còn được dùng theo cách mới
+        // Các biến này không còn được sử dụng theo logic mới
         private bool m_HasSpecialShell;
         private float m_SpecialShellMultiplier;
 
@@ -74,7 +74,8 @@ namespace Tanks.Complete
             m_TrajectoryLine = GetComponent<LineRenderer>();
             if (m_Animator == null) m_Animator = GetComponentInChildren<Animator>();
 
-            if (m_OrbCollector == null) m_OrbCollector = GetComponent<OrbCollector>();
+            // Tự động lấy AbilityManager nếu chưa được gán
+            if (m_AbilityManager == null) m_AbilityManager = GetComponent<AbilityManager>();
         }
 
         private void OnEnable()
@@ -116,9 +117,7 @@ namespace Tanks.Complete
             {
                 m_ShotCooldownTimer -= Time.deltaTime;
             }
-
             if (m_AimSlider != null) m_AimSlider.value = m_IsCharging ? m_CurrentLaunchForce : m_BaseMinLaunchForce;
-
             if (m_ShotCooldownTimer <= 0 && fireAction.WasPressedThisFrame())
             {
                 m_IsCharging = true;
@@ -147,7 +146,6 @@ namespace Tanks.Complete
             {
                 Fire();
             }
-
             if (m_IsCharging && !m_Fired && m_TrajectoryLine != null)
             {
                 ShowTrajectory(m_CurrentLaunchForce);
@@ -158,7 +156,6 @@ namespace Tanks.Complete
             }
         }
 
-        // --- HÀM Fire() ĐÃ ĐƯỢC ĐẠI TU VÀ SỬA LỖI ---
         private void Fire()
         {
             if (!m_IsCharging) return;
@@ -173,25 +170,19 @@ namespace Tanks.Complete
 
             Rigidbody shellToFire = m_NormalShell;
 
-            // SỬA LỖI: Khai báo List với đúng kiểu dữ liệu từ PowerOrbController
-            List<PowerOrbController.ElementType> collectedElements = new List<PowerOrbController.ElementType>();
-
-            if (m_OrbCollector != null && m_OrbCollector.IsCarryingAnyOrb)
+            PowerOrbController.ElementType empowermentType = PowerOrbController.ElementType.None;
+            if (m_AbilityManager != null)
             {
-                collectedElements = m_OrbCollector.GetCollectedOrbTypes();
+                empowermentType = m_AbilityManager.GetSelectedEmpowerment();
+            }
 
-                if (collectedElements.Count > 0)
-                {
-                    // SỬA LỖI: So sánh với đúng kiểu enum PowerOrbController.ElementType
-                    switch (collectedElements[0])
-                    {
-                        case PowerOrbController.ElementType.Fire: shellToFire = m_FireShell; break;
-                        case PowerOrbController.ElementType.Water: shellToFire = m_WaterShell; break;
-                        case PowerOrbController.ElementType.Wind: shellToFire = m_WindShell; break;
-                        case PowerOrbController.ElementType.Earth: shellToFire = m_EarthShell; break;
-                        default: shellToFire = m_NormalShell; break;
-                    }
-                }
+            switch (empowermentType)
+            {
+                case PowerOrbController.ElementType.Fire: shellToFire = m_FireShell; break;
+                case PowerOrbController.ElementType.Water: shellToFire = m_WaterShell; break;
+                case PowerOrbController.ElementType.Wind: shellToFire = m_WindShell; break;
+                case PowerOrbController.ElementType.Earth: shellToFire = m_EarthShell; break;
+                default: shellToFire = m_NormalShell; break;
             }
 
             Rigidbody shellInstance = Instantiate(shellToFire, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
@@ -205,18 +196,16 @@ namespace Tanks.Complete
                 explosionData.m_ExplosionForce = m_ExplosionForce;
                 explosionData.m_ExplosionRadius = m_ExplosionRadius;
 
-                // SỬA LỖI: Chuyển đổi từ List<PowerOrbController.ElementType> sang List<ShellExplosion.ElementType>
                 explosionData.m_ActiveElements.Clear();
-                foreach (var orbType in collectedElements)
+                if (empowermentType != PowerOrbController.ElementType.None)
                 {
-                    // Chuyển đổi (cast) từng enum một. Điều này an toàn vì chúng có cùng thứ tự và giá trị.
-                    explosionData.m_ActiveElements.Add((ShellExplosion.ElementType)orbType);
+                    explosionData.m_ActiveElements.Add((ShellExplosion.ElementType)empowermentType);
                 }
             }
 
-            if (m_OrbCollector != null)
+            if (m_AbilityManager != null)
             {
-                m_OrbCollector.ConsumeOrbs();
+                m_AbilityManager.OnFireComplete();
             }
 
             if (m_ShootingAudio != null && m_FireClip != null)
@@ -227,8 +216,6 @@ namespace Tanks.Complete
             m_CurrentLaunchForce = m_MinLaunchForce;
             m_ShotCooldownTimer = m_ShotCooldown;
         }
-
-        // --- CÁC HÀM CŨ KHÁC GIỮ NGUYÊN ---
 
         public void StartCharging()
         {

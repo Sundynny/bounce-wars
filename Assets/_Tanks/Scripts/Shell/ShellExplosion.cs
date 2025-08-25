@@ -103,8 +103,9 @@ namespace Tanks.Complete
                             Instantiate(m_WindEffectPrefab, transform.position, Quaternion.identity);
                         break;
                     case ElementType.Water:
+                        Debug.Log("Đạn Nước đã nổ! Chuẩn bị triệu hồi WaterEffectPrefab.");
                         if (m_WaterEffectPrefab != null)
-                            Instantiate(m_WaterEffectPrefab, transform.position, Quaternion.identity);
+                        Instantiate(m_WaterEffectPrefab, transform.position, Quaternion.identity);
                         break;
                     case ElementType.Earth:
                         if (m_EarthEffectPrefab != null)

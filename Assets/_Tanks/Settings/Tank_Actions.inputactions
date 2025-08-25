@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "Tank_Actions",
     "maps": [
         {
@@ -46,6 +47,42 @@
                     "type": "Button",
                     "id": "6eabf94d-02d7-4b85-93fc-bbd9c2a6e41a",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityFire",
+                    "type": "Button",
+                    "id": "fc818055-fa08-4dd7-a9ed-453a9e5f1ffa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityWater",
+                    "type": "Button",
+                    "id": "6bf3794f-7f0e-48cf-b123-624fc3cfb69b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityWind",
+                    "type": "Button",
+                    "id": "2c92f95a-4d5d-4011-9199-7a5d04b72024",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityEarth",
+                    "type": "Button",
+                    "id": "56e46980-c6a3-4571-b6de-5fa049822c28",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -143,7 +180,7 @@
                 {
                     "name": "",
                     "id": "3364dd8b-160a-470b-aa56-b62215c05355",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/numpad0",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardRight",
@@ -275,11 +312,99 @@
                 {
                     "name": "",
                     "id": "11c0b2e1-62b6-4d2c-98fa-c84b74c75f40",
-                    "path": "<Keyboard>/rightShift",
+                    "path": "<Keyboard>/numpad2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardRight",
+                    "groups": "KeyboardRight;Gamepad",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64efa5c9-7abb-4758-ad61-f95a69341fc0",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardLeft",
+                    "action": "AbilityFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40331c34-6b6f-43e2-8cd0-8c2d868ed6fc",
+                    "path": "<Keyboard>/numpad4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardRight",
+                    "action": "AbilityFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "161e10d4-4ce1-43b8-ae93-12def44aac7e",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardLeft",
+                    "action": "AbilityWater",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "384997c1-c198-47ef-9856-8ba9990c8289",
+                    "path": "<Keyboard>/numpad5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardRight",
+                    "action": "AbilityWater",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a316428-70e7-4bdc-81bf-65822c1c077a",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardLeft",
+                    "action": "AbilityWind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6efced9-ef25-4b3b-bcfa-82f7f404a5de",
+                    "path": "<Keyboard>/numpad3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityWind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3cb180d0-84ea-436b-91ba-7ea2ab97b1e0",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityEarth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69b1fccb-ce04-4e63-907e-2e4479475a9a",
+                    "path": "<Keyboard>/numpad6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityEarth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

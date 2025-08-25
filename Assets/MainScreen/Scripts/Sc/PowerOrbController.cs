@@ -10,6 +10,7 @@ namespace Tanks.Complete
         // Enum để xác định loại nguyên tố của quả cầu
         public enum ElementType
         {
+            None,
             Fire,
             Water,
             Wind,
