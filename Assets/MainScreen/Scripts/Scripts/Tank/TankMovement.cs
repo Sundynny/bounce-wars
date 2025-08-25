@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
@@ -153,6 +153,7 @@ namespace Tanks.Complete
                 // Đọc input từ người chơi.
                 m_MovementInputValue = m_MoveAction.ReadValue<float>();
                 m_TurnInputValue = m_TurnAction.ReadValue<float>();
+                
                 // Tạo vector hướng chuẩn hóa từ input.
                 m_InputDirection = new Vector3(m_TurnInputValue, 0f, m_MovementInputValue).normalized;
             }
