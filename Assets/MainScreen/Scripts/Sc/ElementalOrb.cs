@@ -21,7 +21,7 @@ public class ElementalOrb : MonoBehaviour
         // Lấy thành phần PowerUpDetector từ đối tượng va chạm
         PowerUpDetector detector = other.GetComponent<PowerUpDetector>();
 
-        // --- THAY ĐỔI QUAN TRỌNG ---
+   
         // Chỉ cần kiểm tra xem đối tượng có phải là xe tăng không (có PowerUpDetector).
         // Không cần kiểm tra xem nó có đang dùng vật phẩm khác không nữa.
         if (detector != null)
@@ -41,7 +41,7 @@ public class ElementalOrb : MonoBehaviour
         switch (elementType)
         {
             case ElementType.Fire:
-                detector.PowerUpSpecialShell(damageMultiplier);
+                detector.PowerUpBaseDamage(damageMultiplier, effectDuration);
                 break;
 
             case ElementType.Water:

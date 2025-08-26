@@ -1,177 +1,188 @@
 ﻿using System.Collections;
-using System.Collections.Generic; // Cần thiết để sử dụng Dictionary
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tanks.Complete
 {
     public class PowerUpDetector : MonoBehaviour
     {
-        // Sử dụng Dictionary để theo dõi các coroutine đang hoạt động cho từng loại PowerUp.
-        // Điều này cho phép nhiều hiệu ứng khác nhau hoạt động cùng lúc.
-        private Dictionary<PowerUp.PowerUpType, Coroutine> m_ActiveCoroutines = new Dictionary<PowerUp.PowerUpType, Coroutine>();
+        // Tham chiếu đến các GameObject hiệu ứng đặt sẵn, là con của nhân vật.
+        [Header("Buff Visual Effect Objects")]
+        [Tooltip("Kéo GameObject hiệu ứng Gió (là con của nhân vật) vào đây.")]
+        public GameObject windBuffEffectObject;
+        [Tooltip("Kéo GameObject hiệu ứng Đất (là con của nhân vật) vào đây.")]
+        public GameObject earthBuffEffectObject;
+        [Tooltip("Kéo GameObject hiệu ứng Lửa (là con của nhân vật) vào đây.")]
+        public GameObject fireBuffEffectObject;
 
-        // Các tham chiếu đến thành phần của xe tăng
+        // Dictionary để theo dõi các coroutine đang hoạt động, đảm bảo không cộng dồn buff.
+        private Dictionary<string, Coroutine> m_ActiveCoroutines = new Dictionary<string, Coroutine>();
+
+        // Các tham chiếu đến thành phần cốt lõi của nhân vật.
         private TankShooting m_TankShooting;
         private TankMovement m_TankMovement;
         private TankHealth m_TankHealth;
-        private PowerUpHUD m_PowerUpHUD;
 
-        // Lưu trữ các giá trị gốc để áp dụng/hoàn tác hiệu ứng một cách chính xác
+        // Lưu trữ các giá trị gốc để có thể hoàn tác hiệu ứng.
         private float m_OriginalSpeed;
         private float m_OriginalTurnSpeed;
-        private float m_OriginalShotCooldown;
 
+        // Biến theo dõi hệ số nhân sát thương từ buff Hỏa.
+        private float m_CurrentDamageMultiplier = 1f;
+
+        // Awake được gọi khi script được tải.
         private void Awake()
         {
-            // Lấy tham chiếu đến các thành phần
+            // Lấy các tham chiếu cần thiết.
             m_TankShooting = GetComponent<TankShooting>();
             m_TankMovement = GetComponent<TankMovement>();
             m_TankHealth = GetComponent<TankHealth>();
-            m_PowerUpHUD = GetComponentInChildren<PowerUpHUD>();
 
-            // Kiểm tra các thành phần quan trọng
+            // Kiểm tra an toàn, vô hiệu hóa script nếu thiếu component.
             if (m_TankMovement == null || m_TankShooting == null || m_TankHealth == null)
             {
-                Debug.LogError("PowerUpDetector: Thiếu một hoặc nhiều thành phần Tank (Movement, Shooting, Health) trên " + gameObject.name + ". Script sẽ bị vô hiệu hóa.");
+                Debug.LogError("PowerUpDetector: Thiếu một hoặc nhiều thành phần Tank...");
                 enabled = false;
                 return;
             }
 
-            // Lưu trữ các giá trị gốc khi game bắt đầu
-            m_OriginalSpeed = m_TankMovement.m_Speed;
-            m_OriginalTurnSpeed = m_TankMovement.m_TurnSpeed;
-            m_OriginalShotCooldown = m_TankShooting.m_ShotCooldown;
+            // Lưu lại tốc độ gốc.
+            if (m_TankMovement != null)
+            {
+                m_OriginalSpeed = m_TankMovement.m_Speed;
+                m_OriginalTurnSpeed = m_TankMovement.m_TurnSpeed;
+            }
+
+            // Đảm bảo tất cả các hiệu ứng đều được tắt khi game bắt đầu.
+            windBuffEffectObject?.SetActive(false);
+            earthBuffEffectObject?.SetActive(false);
+            fireBuffEffectObject?.SetActive(false);
         }
 
         #region Public Methods to Start PowerUps
 
-        // Áp dụng tăng tốc tạm thời cho xe tăng
-        public void PowerUpSpeed(float speedBoost, float turnSpeedBoost, float duration)
+        // Hàm được gọi bởi quả cầu Hỏa.
+        public void PowerUpBaseDamage(float multiplier, float duration)
         {
-            HandleTimedPowerUp(PowerUp.PowerUpType.Speed, IncreaseSpeed(speedBoost, turnSpeedBoost, duration));
+            HandleTimedPowerUp("BaseDamage", IncreaseBaseDamage(multiplier, duration), fireBuffEffectObject);
         }
 
-        // Áp dụng tăng tốc độ bắn tạm thời cho xe tăng
-        public void PowerUpShoootingRate(float cooldownReduction, float duration)
-        {
-            HandleTimedPowerUp(PowerUp.PowerUpType.ShootingBonus, IncreaseShootingRate(cooldownReduction, duration));
-        }
-
-        // Cung cấp cho xe tăng một tấm khiên tạm thời
-        public void PickUpShield(float shieldAmount, float duration)
-        {
-            HandleTimedPowerUp(PowerUp.PowerUpType.DamageReduction, ActivateShield(shieldAmount, duration));
-        }
-
-        // Làm cho xe tăng bất tử trong một khoảng thời gian
-        public void PowerUpInvincibility(float duration)
-        {
-            HandleTimedPowerUp(PowerUp.PowerUpType.Invincibility, ActivateInvincibility(duration));
-        }
-
-        // Các hiệu ứng tức thời không cần quản lý thời gian
+        // Hàm được gọi bởi quả cầu Nước.
         public void PowerUpHealing(float healAmount)
         {
-            m_TankHealth.IncreaseHealth(healAmount);
-            if (m_PowerUpHUD != null)
-                m_PowerUpHUD.SetActivePowerUp(PowerUp.PowerUpType.Healing, 1.0f);
+            if (m_TankHealth != null)
+                m_TankHealth.IncreaseHealth(healAmount);
         }
 
-        public void PowerUpSpecialShell(float damageMultiplier)
+        // Hàm được gọi bởi quả cầu Gió.
+        public void PowerUpSpeed(float speedBoost, float turnSpeedBoost, float duration)
         {
-            // Hiệu ứng này không có thời gian, nó chỉ áp dụng cho lần bắn tiếp theo.
-            // Nếu bạn muốn nó cũng có thể làm mới, bạn sẽ cần một logic phức tạp hơn.
-            // Hiện tại, nó chỉ đơn giản là trang bị.
-            if (m_PowerUpHUD != null)
-                m_PowerUpHUD.SetActivePowerUp(PowerUp.PowerUpType.DamageMultiplier, 0f);
+            HandleTimedPowerUp("Speed", IncreaseSpeed(speedBoost, turnSpeedBoost, duration), windBuffEffectObject);
+        }
 
-            m_TankShooting.EquipSpecialShell(damageMultiplier);
+        // Hàm được gọi bởi quả cầu Đất.
+        public void PickUpShield(float shieldAmount, float duration)
+        {
+            if (m_TankHealth != null)
+            {
+                m_TankHealth.AddShield(shieldAmount, duration);
+                HandleTimedPowerUp("ShieldEffect", ShieldEffectDuration(duration), earthBuffEffectObject);
+            }
         }
 
         #endregion
 
-        // Hàm quản lý trung tâm cho các hiệu ứng có thời gian
-        private void HandleTimedPowerUp(PowerUp.PowerUpType type, IEnumerator coroutine)
+        // --- HÀM QUẢN LÝ BUFF ĐÃ ĐƯỢC NÂNG CẤP VỚI LOGIC "BẬT TRƯỚC, LÀM SAU" ---
+        private void HandleTimedPowerUp(string buffName, IEnumerator coroutine, GameObject effectObject)
         {
-            // Nếu hiệu ứng này đã được kích hoạt, hãy dừng coroutine cũ để làm mới thời gian
-            if (m_ActiveCoroutines.ContainsKey(type))
+            // 1. DỌN DẸP BUFF CŨ (NẾU CÓ) - Logic "Reset an toàn"
+            if (m_ActiveCoroutines.ContainsKey(buffName))
             {
-                StopCoroutine(m_ActiveCoroutines[type]);
+                // Dừng coroutine cũ để tránh xung đột
+                if (m_ActiveCoroutines[buffName] != null)
+                    StopCoroutine(m_ActiveCoroutines[buffName]);
+                m_ActiveCoroutines.Remove(buffName);
+
+                // Tắt hiệu ứng hình ảnh cũ
+                if (effectObject != null)
+                    effectObject.SetActive(false);
+
+                // Hoàn tác hiệu ứng cũ (quan trọng!)
+                // Ví dụ: Nếu nhặt lại buff Gió, trả tốc độ về bình thường trước khi tăng lại.
+                if (buffName == "Speed")
+                {
+                    m_TankMovement.m_Speed = m_OriginalSpeed;
+                    m_TankMovement.m_TurnSpeed = m_OriginalTurnSpeed;
+                }
+                if (buffName == "BaseDamage")
+                {
+                    m_CurrentDamageMultiplier = 1f;
+                }
             }
 
-            // Bắt đầu coroutine mới và lưu nó vào Dictionary
-            m_ActiveCoroutines[type] = StartCoroutine(coroutine);
+            // 2. KÍCH HOẠT BUFF MỚI
+            // Bật GameObject hiệu ứng hình ảnh.
+            if (effectObject != null)
+            {
+                effectObject.SetActive(true);
+            }
+
+            // Bắt đầu coroutine logic mới và lưu lại tham chiếu.
+            m_ActiveCoroutines[buffName] = StartCoroutine(coroutine);
         }
 
+        // Hàm để TankShooting có thể lấy thông tin.
+        public float GetCurrentDamageMultiplier()
+        {
+            return m_CurrentDamageMultiplier;
+        }
 
         #region Coroutines for Timed PowerUps
 
+        // Coroutine cho buff Hỏa.
+        private IEnumerator IncreaseBaseDamage(float multiplier, float duration)
+        {
+            m_CurrentDamageMultiplier = multiplier; // Gán giá trị mới
+            yield return new WaitForSeconds(duration); // Chờ hết thời gian
+            m_CurrentDamageMultiplier = 1f; // Reset về mặc định
+
+            // Tắt hiệu ứng và dọn dẹp
+            if (fireBuffEffectObject != null)
+            {
+                fireBuffEffectObject.SetActive(false);
+            }
+            m_ActiveCoroutines.Remove("BaseDamage");
+        }
+
+        // Coroutine cho buff Gió.
         private IEnumerator IncreaseSpeed(float speedBoost, float TurnSpeedBoost, float duration)
         {
-            if (m_PowerUpHUD != null)
-                m_PowerUpHUD.SetActivePowerUp(PowerUp.PowerUpType.Speed, duration);
-
-            // Áp dụng hiệu ứng dựa trên giá trị gốc
             m_TankMovement.m_Speed = m_OriginalSpeed + speedBoost;
             m_TankMovement.m_TurnSpeed = m_OriginalTurnSpeed + TurnSpeedBoost;
-
             yield return new WaitForSeconds(duration);
-
-            // Hoàn tác hiệu ứng, quay về giá trị gốc
             m_TankMovement.m_Speed = m_OriginalSpeed;
             m_TankMovement.m_TurnSpeed = m_OriginalTurnSpeed;
 
-            // Xóa coroutine khỏi danh sách đang hoạt động
-            m_ActiveCoroutines.Remove(PowerUp.PowerUpType.Speed);
-        }
-
-        private IEnumerator IncreaseShootingRate(float cooldownReduction, float duration)
-        {
-            if (cooldownReduction > 0)
+            // Tắt hiệu ứng và dọn dẹp
+            if (windBuffEffectObject != null)
             {
-                if (m_PowerUpHUD != null)
-                    m_PowerUpHUD.SetActivePowerUp(PowerUp.PowerUpType.ShootingBonus, duration);
-
-                // Áp dụng hiệu ứng
-                m_TankShooting.m_ShotCooldown = m_OriginalShotCooldown * cooldownReduction;
-
-                yield return new WaitForSeconds(duration);
-
-                // Hoàn tác hiệu ứng
-                m_TankShooting.m_ShotCooldown = m_OriginalShotCooldown;
-                m_ActiveCoroutines.Remove(PowerUp.PowerUpType.ShootingBonus);
+                windBuffEffectObject.SetActive(false);
             }
+            m_ActiveCoroutines.Remove("Speed");
         }
 
-        private IEnumerator ActivateShield(float shieldAmount, float duration)
+        // Coroutine chỉ để quản lý thời gian và hiệu ứng hình ảnh của khiên.
+        private IEnumerator ShieldEffectDuration(float duration)
         {
-            if (m_PowerUpHUD != null)
-                m_PowerUpHUD.SetActivePowerUp(PowerUp.PowerUpType.DamageReduction, duration);
-
-            // Bật khiên (nếu nó chưa bật)
-            if (!m_TankHealth.m_HasShield)
-                m_TankHealth.ToggleShield(shieldAmount);
-
+            // Coroutine này chỉ chờ. Logic của khiên đã được TankHealth xử lý.
             yield return new WaitForSeconds(duration);
 
-            // Tắt khiên (nếu nó vẫn đang bật)
-            if (m_TankHealth.m_HasShield)
-                m_TankHealth.ToggleShield(shieldAmount);
-
-            m_ActiveCoroutines.Remove(PowerUp.PowerUpType.DamageReduction);
-        }
-
-        private IEnumerator ActivateInvincibility(float duration)
-        {
-            if (m_PowerUpHUD != null)
-                m_PowerUpHUD.SetActivePowerUp(PowerUp.PowerUpType.Invincibility, duration);
-
-            m_TankHealth.ToggleInvincibility();
-
-            yield return new WaitForSeconds(duration);
-
-            m_TankHealth.ToggleInvincibility();
-            m_ActiveCoroutines.Remove(PowerUp.PowerUpType.Invincibility);
+            // Tắt hiệu ứng và dọn dẹp
+            if (earthBuffEffectObject != null)
+            {
+                earthBuffEffectObject.SetActive(false);
+            }
+            m_ActiveCoroutines.Remove("ShieldEffect");
         }
 
         #endregion

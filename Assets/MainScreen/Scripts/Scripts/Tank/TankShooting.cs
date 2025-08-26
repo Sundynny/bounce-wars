@@ -29,6 +29,8 @@ namespace Tanks.Complete
         [Header("Component References")]
         [Tooltip("Tham chiếu đến script AbilityManager trên cùng nhân vật.")]
         public AbilityManager m_AbilityManager;
+        [Tooltip("Tham chiếu đến script PowerUpDetector trên cùng nhân vật.")]
+        public PowerUpDetector m_PowerUpDetector;
 
         // --- CÁC BIẾN CŨ GIỮ NGUYÊN ---
         private LineRenderer m_TrajectoryLine;
@@ -67,17 +69,19 @@ namespace Tanks.Complete
         private bool m_HasSpecialShell;
         private float m_SpecialShellMultiplier;
 
+        // Awake được gọi khi script được tải.
         private void Awake()
         {
             m_InputUser = GetComponent<TankInputUser>();
             if (m_InputUser == null) m_InputUser = gameObject.AddComponent<TankInputUser>();
             m_TrajectoryLine = GetComponent<LineRenderer>();
             if (m_Animator == null) m_Animator = GetComponentInChildren<Animator>();
-
-            // Tự động lấy AbilityManager nếu chưa được gán
             if (m_AbilityManager == null) m_AbilityManager = GetComponent<AbilityManager>();
+            // Tự động lấy PowerUpDetector nếu chưa được gán
+            if (m_PowerUpDetector == null) m_PowerUpDetector = GetComponent<PowerUpDetector>();
         }
 
+        // OnEnable được gọi khi GameObject được kích hoạt.
         private void OnEnable()
         {
             m_CurrentLaunchForce = m_MinLaunchForce;
@@ -92,6 +96,7 @@ namespace Tanks.Complete
             }
         }
 
+        // Start được gọi trước frame đầu tiên.
         private void Start()
         {
             fireAction = m_InputUser.ActionAsset.FindAction("Fire");
@@ -99,6 +104,7 @@ namespace Tanks.Complete
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
         }
 
+        // Update được gọi mỗi frame.
         private void Update()
         {
             if (!m_IsComputerControlled)
@@ -111,6 +117,7 @@ namespace Tanks.Complete
             }
         }
 
+        // Hàm cập nhật logic cho người chơi.
         void HumanUpdate()
         {
             if (m_ShotCooldownTimer > 0.0f)
@@ -156,6 +163,7 @@ namespace Tanks.Complete
             }
         }
 
+        // Hàm bắn đạn, trung tâm của logic cường hóa.
         private void Fire()
         {
             if (!m_IsCharging) return;
@@ -163,19 +171,22 @@ namespace Tanks.Complete
             m_Fired = true;
             m_IsCharging = false;
 
+            // Reset animation về trạng thái mặc định.
             if (m_Animator != null)
             {
                 m_Animator.SetInteger("abilityIndex", 0);
             }
 
+            // --- 1. LẤY THÔNG TIN CƯỜNG HÓA TỪ ABILITYMANAGER ---
             Rigidbody shellToFire = m_NormalShell;
-
             PowerOrbController.ElementType empowermentType = PowerOrbController.ElementType.None;
             if (m_AbilityManager != null)
             {
+                // Hỏi AbilityManager xem có kỹ năng nào đang được chọn không.
                 empowermentType = m_AbilityManager.GetSelectedEmpowerment();
             }
 
+            // --- 2. CHỌN PREFAB ĐẠN PHÙ HỢP ---
             switch (empowermentType)
             {
                 case PowerOrbController.ElementType.Fire: shellToFire = m_FireShell; break;
@@ -185,17 +196,30 @@ namespace Tanks.Complete
                 default: shellToFire = m_NormalShell; break;
             }
 
+            // --- 3. TẠO VIÊN ĐẠN VÀ TRUYỀN SỨC MẠNH ---
             Rigidbody shellInstance = Instantiate(shellToFire, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
             shellInstance.linearVelocity = m_CurrentLaunchForce * m_FireTransform.forward;
 
             ShellExplosion explosionData = shellInstance.GetComponent<ShellExplosion>();
             if (explosionData != null)
             {
+                // Gán chủ nhân cho viên đạn.
                 explosionData.m_Owner = this.gameObject;
-                explosionData.m_MaxDamage = m_MaxDamage;
+
+                // --- LOGIC MỚI: Áp dụng buff sát thương tức thì từ PowerUpDetector ---
+                float finalDamage = m_MaxDamage;
+                if (m_PowerUpDetector != null)
+                {
+                    // Lấy hệ số nhân sát thương hiện tại (ví dụ: 1.5 từ buff Lửa) và áp dụng.
+                    finalDamage *= m_PowerUpDetector.GetCurrentDamageMultiplier();
+                }
+
+                // Gán các thuộc tính đã tính toán cho viên đạn.
+                explosionData.m_MaxDamage = finalDamage;
                 explosionData.m_ExplosionForce = m_ExplosionForce;
                 explosionData.m_ExplosionRadius = m_ExplosionRadius;
 
+                // Gán nguyên tố từ kỹ năng đã chọn cho viên đạn.
                 explosionData.m_ActiveElements.Clear();
                 if (empowermentType != PowerOrbController.ElementType.None)
                 {
@@ -203,11 +227,13 @@ namespace Tanks.Complete
                 }
             }
 
+            // --- 4. BÁO CÁO CHO ABILITYMANAGER ĐỂ TIÊU THỤ QUẢ CẦU ---
             if (m_AbilityManager != null)
             {
                 m_AbilityManager.OnFireComplete();
             }
 
+            // --- Phần logic âm thanh và cooldown giữ nguyên ---
             if (m_ShootingAudio != null && m_FireClip != null)
             {
                 m_ShootingAudio.clip = m_FireClip;
@@ -217,6 +243,7 @@ namespace Tanks.Complete
             m_ShotCooldownTimer = m_ShotCooldown;
         }
 
+        // --- CÁC HÀM CŨ KHÁC GIỮ NGUYÊN ---
         public void StartCharging()
         {
             m_IsCharging = true;

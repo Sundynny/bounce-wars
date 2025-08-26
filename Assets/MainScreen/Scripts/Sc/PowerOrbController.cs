@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-// Đặt tên namespace để nhất quán với dự án của bạn
 namespace Tanks.Complete
 {
     public class PowerOrbController : MonoBehaviour
     {
-        // --- PHẦN LẤY TỪ ElementalOrb.cs ---
-        // Enum để xác định loại nguyên tố của quả cầu
+        // Enum để xác định loại nguyên tố của quả cầu.
         public enum ElementType
         {
             None,
@@ -17,108 +15,116 @@ namespace Tanks.Complete
             Earth
         }
 
-        [Header("Orb Settings")]
-        [Tooltip("Loại nguyên tố của quả cầu này.")]
+        [Header("Orb Type")]
+        [Tooltip("Loại nguyên tố của quả cầu này. Hãy thiết lập đúng cho từng Prefab.")]
         public ElementType elementType;
 
+        [Header("Instant Buff Settings")]
+        [Tooltip("Thời gian tồn tại của buff (giây). Chỉ áp dụng cho các buff có thời gian.")]
+        public float effectDuration = 10f;
+        [Tooltip("Sức mạnh của hiệu ứng (ví dụ: lượng máu hồi, lượng giáp, tốc độ tăng thêm).")]
+        public float effectStrength = 15f;
+        [Tooltip("Hệ số nhân sát thương cho buff Lửa.")]
+        public float damageMultiplier = 1.5f;
 
-        // --- PHẦN LẤY TỪ Point_Controller.cs ---
-        // Biến để theo dõi trạng thái, chỉ đọc từ bên ngoài
-        private bool m_IsCarried = false;
+        // Trạng thái của quả cầu
+        private bool m_IsCarried = false; // Đã được thu thập chưa?
         public bool IsCarried => m_IsCarried;
+        private bool m_HasGivenBuff = false; // Đã đưa buff tức thì chưa?
+        private bool m_IsCollectable = true; // Có thể được nhặt không?
 
-        [Header("Capture Effect")]
-        [Tooltip("Thời gian để quả cầu thu nhỏ và bay về phía người chơi.")]
-        [SerializeField] private float m_CaptureDuration = 0.5f;
-
-        [Header("Following Behaviour")]
-        [Tooltip("Độ trễ khi quả cầu bay theo sau, càng nhỏ càng bám sát.")]
+        [Header("Visual Effects on Capture")]
         [SerializeField] private float m_DampTime = 0.2f;
-        [Tooltip("Tỷ lệ thu nhỏ khi được mang (ví dụ: 0.5 để thu nhỏ còn một nửa).")]
         [SerializeField] private float m_CarriedScaleMultiplier = 0.5f;
+        [SerializeField] private float m_CaptureAnimationTime = 0.5f;
 
-        // Các biến lưu trữ trạng thái gốc và các component cần thiết
-        private Vector3 m_OriginalPosition;
-        private Quaternion m_OriginalRotation;
-        private Vector3 m_OriginalScale;
+        // Các biến nội bộ
         private Collider m_Collider;
         private Renderer m_Renderer;
-
-        // Các biến cho việc di chuyển mượt mà
         private Vector3 m_CurrentVelocity = Vector3.zero;
         private Vector3 m_TargetPosition;
 
-        // Biến để ngăn việc nhặt lại ngay sau khi được thả ra
-        private bool m_IsResettable = true;
-
-
         private void Awake()
         {
-            // Lưu lại trạng thái ban đầu của quả cầu
-            m_OriginalPosition = transform.position;
-            m_OriginalRotation = transform.rotation;
-            m_OriginalScale = transform.localScale;
-
-            // Lấy các component để sử dụng sau này
             m_Collider = GetComponent<Collider>();
             m_Renderer = GetComponent<Renderer>();
         }
 
-        // LateUpdate được dùng để xử lý di chuyển, đảm bảo nhân vật đã di chuyển xong trong frame đó
+        // --- HÀM CÔNG KHAI ĐỂ ORBCOLLECTOR ĐIỀU KHIỂN ---
+
+        /// <summary>
+        /// Áp dụng hiệu ứng buff tức thì. Được gọi TỪ BÊN NGOÀI bởi OrbCollector.
+        /// </summary>
+        public void ApplyInstantBuff(PowerUpDetector detector)
+        {
+            // Nếu chưa đưa buff và có detector hợp lệ...
+            if (!m_HasGivenBuff && detector != null)
+            {
+                // Đánh dấu là đã đưa buff để không lặp lại
+                m_HasGivenBuff = true;
+
+                // Áp dụng hiệu ứng
+                switch (elementType)
+                {
+                    case ElementType.Fire:
+                        detector.PowerUpBaseDamage(damageMultiplier, effectDuration);
+                        break;
+                    case ElementType.Water:
+                        detector.PowerUpHealing(effectStrength);
+                        break;
+                    case ElementType.Wind:
+                        detector.PowerUpSpeed(effectStrength, effectStrength, effectDuration);
+                        break;
+                    case ElementType.Earth:
+                        detector.PickUpShield(effectStrength, effectDuration);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Bắt đầu quá trình được thu thập và bay theo sau. Được gọi TỪ BÊN NGOÀI bởi OrbCollector.
+        /// </summary>
+        public void Capture(Transform parent)
+        {
+            if (m_IsCarried || !m_IsCollectable) return;
+
+            m_IsCarried = true;
+            m_IsCollectable = false;
+            transform.SetParent(parent);
+
+            // Tắt va chạm để không kích hoạt OnTriggerEnter nữa
+            if (m_Collider != null) m_Collider.enabled = false;
+
+            StartCoroutine(CaptureRoutine());
+        }
+
+        // --- CÁC HÀM PRIVATE VÀ COROUTINE ---
+
+        // LateUpdate xử lý việc bay theo sau
         private void LateUpdate()
         {
-            // Nếu đang được mang và đang hiện hình, thì di chuyển mượt mà tới vị trí mục tiêu
-            if (m_IsCarried && m_Renderer.enabled)
+            if (m_IsCarried && m_Renderer != null && m_Renderer.enabled)
             {
-                transform.position = Vector3.SmoothDamp(
-                    transform.position,
-                    m_TargetPosition,
-                    ref m_CurrentVelocity,
-                    m_DampTime
-                );
-                // Vẫn giữ hiệu ứng xoay tự thân cho đẹp mắt
+                transform.position = Vector3.SmoothDamp(transform.position, m_TargetPosition, ref m_CurrentVelocity, m_DampTime);
                 transform.Rotate(Vector3.up, 45f * Time.deltaTime, Space.World);
             }
         }
 
-        // Hàm được gọi bởi OrbCollector khi người chơi nhặt quả cầu
-        public void Capture(Transform parent)
-        {
-            // Nếu đã được mang hoặc chưa sẵn sàng để nhặt, thì bỏ qua
-            if (m_IsCarried || !m_IsResettable) return;
-
-            m_IsCarried = true;
-            m_IsResettable = false; // Đánh dấu là không thể reset ngay
-            transform.SetParent(parent); // Gán người chơi làm "cha" để dễ quản lý
-            StartCoroutine(CaptureRoutine());
-        }
-
-        // Coroutine xử lý hiệu ứng khi được nhặt
+        // Coroutine xử lý hiệu ứng hình ảnh khi được nhặt
         private IEnumerator CaptureRoutine()
         {
-            // Vô hiệu hóa va chạm để không nhặt lại chính nó
-            if (m_Collider != null) m_Collider.enabled = false;
+            Vector3 originalScale = transform.localScale;
+            StartCoroutine(ScaleOverTime(originalScale * m_CarriedScaleMultiplier, m_CaptureAnimationTime));
+            yield return new WaitForSeconds(m_CaptureAnimationTime);
 
-            // Bắt đầu quá trình thu nhỏ
-            StartCoroutine(ScaleOverTime(m_OriginalScale * m_CarriedScaleMultiplier, m_CaptureDuration));
-
-            // Chờ một chút trước khi hiện hình lại
-            yield return new WaitForSeconds(m_CaptureDuration);
-
-            // Ẩn quả cầu đi một lát (tùy chọn, có thể bỏ qua nếu muốn thấy nó bay về)
-            // if (m_Renderer != null) m_Renderer.enabled = false;
-
-            // Vị trí xuất hiện đầu tiên sẽ là ở gần người chơi
             if (transform.parent != null)
             {
                 transform.position = transform.parent.position + Vector3.up * 2f;
             }
-
-            // Hiện hình lại quả cầu
             if (m_Renderer != null) m_Renderer.enabled = true;
         }
 
-        // Coroutine để thay đổi kích thước mượt mà
         private IEnumerator ScaleOverTime(Vector3 targetScale, float duration)
         {
             Vector3 startScale = transform.localScale;
@@ -132,46 +138,16 @@ namespace Tanks.Complete
             transform.localScale = targetScale;
         }
 
-        // Hàm được gọi mỗi frame bởi OrbCollector để cập nhật vị trí bay theo
         public void SetTargetPosition(Vector3 newPosition)
         {
             m_TargetPosition = newPosition;
         }
 
-        // Hàm được gọi bởi OrbCollector khi quả cầu được "tiêu thụ"
+        // Hàm được gọi khi quả cầu bị tiêu thụ bởi kỹ năng
         public void Consume()
         {
-            // Dừng mọi coroutine, ẩn hình và chuẩn bị để bị hủy
-            StopAllCoroutines();
-            if (m_Renderer != null) m_Renderer.enabled = false;
-            if (m_Collider != null) m_Collider.enabled = false;
-
-            // Tự hủy sau một khoảng trễ nhỏ
-            Destroy(gameObject, 1f);
-        }
-
-        // Hàm này có thể dùng nếu bạn muốn quả cầu hồi sinh tại chỗ thay vì bị hủy
-        public void ResetState()
-        {
-            StopAllCoroutines();
-            m_IsCarried = false;
-            transform.SetParent(null); // Tách khỏi người chơi
-            transform.position = m_OriginalPosition;
-            transform.rotation = m_OriginalRotation;
-            transform.localScale = m_OriginalScale;
-
-            if (m_Renderer != null) m_Renderer.enabled = true;
-            if (m_Collider != null) m_Collider.enabled = true;
-
-            // Bắt đầu coroutine để quả cầu không thể bị nhặt lại ngay lập tức
-            StartCoroutine(ResetCooldown());
-        }
-
-        private IEnumerator ResetCooldown()
-        {
-            m_IsResettable = false;
-            yield return new WaitForSeconds(1.5f); // Chờ 1.5 giây
-            m_IsResettable = true;
+            // Tự phá hủy
+            Destroy(gameObject);
         }
     }
 }

@@ -3,31 +3,41 @@ using UnityEngine;
 
 namespace Tanks.Complete
 {
-    // Yêu cầu phải có AbilityManager trên cùng GameObject
+    // Yêu cầu phải có cả AbilityManager và PowerUpDetector trên cùng GameObject.
     [RequireComponent(typeof(AbilityManager))]
+    [RequireComponent(typeof(PowerUpDetector))]
     public class OrbCollector : MonoBehaviour
     {
-        // --- THÊM MỚI: Tham chiếu đến AbilityManager ---
+        // Tham chiếu đến các component quan trọng khác trên cùng nhân vật.
         private AbilityManager m_AbilityManager;
+        private PowerUpDetector m_PowerUpDetector;
 
-        // --- CÁC BIẾN CŨ GIỮ NGUYÊN ---
+        // Dictionary để quản lý các quả cầu đã thu thập.
         private Dictionary<PowerOrbController.ElementType, PowerOrbController> m_CollectedOrbs = new Dictionary<PowerOrbController.ElementType, PowerOrbController>();
+
+        // List để dễ dàng sắp xếp quỹ đạo bay.
         private List<PowerOrbController> m_OrbList = new List<PowerOrbController>();
+
+        // Các thuộc tính chỉ đọc.
         public bool IsCarryingAnyOrb => m_OrbList.Count > 0;
         public int OrbCount => m_OrbList.Count;
 
+        // Cài đặt cho quỹ đạo bay.
         [Header("Orbit Settings")]
         [SerializeField] private float m_OrbitRadius = 2.5f;
         [SerializeField] private Vector3 m_OrbitCenterOffset = new Vector3(0, 1.5f, -2f);
         [SerializeField] private float m_OrbitSpeed = 120f;
         private float m_CurrentAngle = 0f;
 
-        // --- THÊM MỚI: Lấy tham chiếu trong Awake ---
+        // Awake được gọi khi script được tải.
         private void Awake()
         {
+            // Lấy các tham chiếu cần thiết.
             m_AbilityManager = GetComponent<AbilityManager>();
+            m_PowerUpDetector = GetComponent<PowerUpDetector>();
         }
 
+        // Update được gọi mỗi frame.
         private void Update()
         {
             if (IsCarryingAnyOrb)
@@ -37,9 +47,9 @@ namespace Tanks.Complete
             }
         }
 
+        // Hàm sắp xếp quỹ đạo bay (giữ nguyên).
         private void ArrangeOrbsInOrbit()
         {
-            // ... (Hàm này giữ nguyên hoàn toàn) ...
             int count = m_OrbList.Count;
             if (count == 0) return;
             Vector3 orbitCenter = transform.position + transform.TransformDirection(m_OrbitCenterOffset);
@@ -55,20 +65,31 @@ namespace Tanks.Complete
             }
         }
 
+        // --- HÀM OnTriggerEnter ĐÃ ĐƯỢC ĐẠI TU ĐỂ THỰC HIỆN LOGIC TUẦN TỰ ---
         private void OnTriggerEnter(Collider other)
         {
+            // Cố gắng lấy component PowerOrbController từ đối tượng va chạm.
             PowerOrbController orb = other.GetComponent<PowerOrbController>();
+
+            // KIỂM TRA ĐIỀU KIỆN NHẶT:
             if (orb != null && !orb.IsCarried && !m_CollectedOrbs.ContainsKey(orb.elementType))
             {
-                // --- DÒNG DEBUG MỚI ---
-                // In ra Console tên của người chơi và loại quả cầu vừa nhặt
-                Debug.Log(gameObject.name + " đã nhặt quả cầu: " + orb.elementType.ToString());
+                // --- THỰC HIỆN CÁC BƯỚC THEO ĐÚNG THỨ TỰ ---
+
+                // BƯỚC 1: ÁP DỤNG BUFF TỨC THÌ
+                // Ra lệnh cho quả cầu tự áp dụng buff lên chính người chơi này.
+                orb.ApplyInstantBuff(m_PowerUpDetector);
+
+                // BƯỚC 2: THU THẬP QUẢ CẦU
+                // Thêm quả cầu vào hệ thống quản lý.
                 m_CollectedOrbs.Add(orb.elementType, orb);
                 UpdateOrbList();
+
+                // Ra lệnh cho quả cầu bắt đầu hiệu ứng bay theo sau.
                 orb.Capture(this.transform);
 
-                // --- THÊM MỚI: Thông báo cho AbilityManager ---
-                // Sau khi nhặt thành công, báo cho AbilityManager cập nhật UI
+                // BƯỚC 3: CẬP NHẬT UI
+                // Thông báo cho AbilityManager để làm sáng icon kỹ năng tương ứng.
                 if (m_AbilityManager != null)
                 {
                     m_AbilityManager.UpdateAvailableAbilitiesUI();
@@ -76,6 +97,7 @@ namespace Tanks.Complete
             }
         }
 
+        // Hàm đồng bộ hóa List từ Dictionary.
         private void UpdateOrbList()
         {
             m_OrbList.Clear();
@@ -85,27 +107,19 @@ namespace Tanks.Complete
             }
         }
 
+        // Hàm công khai để các script khác có thể lấy thông tin.
         public List<PowerOrbController.ElementType> GetCollectedOrbTypes()
         {
             return new List<PowerOrbController.ElementType>(m_CollectedOrbs.Keys);
         }
 
-        // --- THAY ĐỔI: Hàm ConsumeOrbs() đã được thay thế bằng hàm mới ---
-        /// <summary>
-        /// Tiêu thụ MỘT quả cầu cụ thể theo loại nguyên tố.
-        /// </summary>
+        // Hàm công khai để AbilityManager ra lệnh tiêu thụ một quả cầu cụ thể.
         public void ConsumeOrb(PowerOrbController.ElementType typeToConsume)
         {
-            // Kiểm tra xem có đang giữ quả cầu loại đó không
             if (m_CollectedOrbs.ContainsKey(typeToConsume))
             {
-                // Lấy quả cầu cần tiêu thụ từ Dictionary
                 PowerOrbController orbToConsume = m_CollectedOrbs[typeToConsume];
-
-                // Ra lệnh cho nó tự hủy
                 orbToConsume.Consume();
-
-                // Xóa nó khỏi hệ thống quản lý
                 m_CollectedOrbs.Remove(typeToConsume);
                 UpdateOrbList();
             }

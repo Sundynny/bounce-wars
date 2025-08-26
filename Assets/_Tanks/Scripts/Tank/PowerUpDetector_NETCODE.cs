@@ -119,7 +119,7 @@ namespace Tanks.Complete
         [ServerRpc]
         private void ApplyShieldPowerUpServerRpc(float shieldAmount, float duration)
         {
-            HandleTimedPowerUpOnServer(PowerUp.PowerUpType.DamageReduction, ActivateShield(shieldAmount, duration));
+            //HandleTimedPowerUpOnServer(PowerUp.PowerUpType.DamageReduction, ActivateShield(shieldAmount, duration));
             ShowShieldEffectClientRpc(duration);
         }
 
@@ -182,17 +182,17 @@ namespace Tanks.Complete
             }
         }
 
-        private IEnumerator ActivateShield(float shieldAmount, float duration)
-        {
-            // Bật khiên (nếu nó chưa bật)
-            if (!m_TankHealth.m_HasShield)
-                m_TankHealth.ToggleShield(shieldAmount);
-            yield return new WaitForSeconds(duration);
-            // Tắt khiên (nếu nó vẫn đang bật)
-            if (m_TankHealth.m_HasShield)
-                m_TankHealth.ToggleShield(shieldAmount);
-            m_ActiveCoroutines.Remove(PowerUp.PowerUpType.DamageReduction);
-        }
+        //private IEnumerator ActivateShield(float shieldAmount, float duration)
+        //{
+        //    // Bật khiên (nếu nó chưa bật)
+        //    if (!m_TankHealth.m_HasShield)
+        //        m_TankHealth.ToggleShield(shieldAmount);
+        //    yield return new WaitForSeconds(duration);
+        //    // Tắt khiên (nếu nó vẫn đang bật)
+        //    if (m_TankHealth.m_HasShield)
+        //        m_TankHealth.ToggleShield(shieldAmount);
+        //    m_ActiveCoroutines.Remove(PowerUp.PowerUpType.DamageReduction);
+        //}
 
         private IEnumerator ActivateInvincibility(float duration)
         {
